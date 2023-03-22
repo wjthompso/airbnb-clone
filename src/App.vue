@@ -1,26 +1,39 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <landing-page></landing-page>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LandingPage from './pages/LandingPage.vue'
 
 export default {
+  components: { LandingPage },
   name: 'App',
-  components: {
-    HelloWorld
-  }
+
 }
 </script>
 
 <style>
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+:root {
+  --FS: 1rem;
+  --FS-S: 0.8rem;
+  --FS-M: 2rem;
+  --FS-L: 3rem;
+  --FS-XL: 4rem;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  font-size:60px;
 }
 </style>
