@@ -60,7 +60,7 @@ div.booking-options-parent-container {
   margin-left: 1rem;
   background-color: white;
   border: 1px solid rgb(203, 203, 203);
-  box-shadow: 2px 2px 4px rgba(77, 77, 77, 0.4);
+  box-shadow: 1px 1px 2px rgba(77, 77, 77, 0.2);
   border-radius: 10rem;
   line-height: 3.5;
   padding: 0rem 1.5rem;

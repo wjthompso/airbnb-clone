@@ -7,7 +7,7 @@ svg.airbnb-logo {
     height: 1em;
     display: flex;
     align-self: center;
-    margin-left: 1rem;
+    /* margin-left: 1rem; */
     /* vertical-align: middle; */
 }
 </style>

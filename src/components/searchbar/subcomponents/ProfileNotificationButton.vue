@@ -14,11 +14,12 @@ button {
     justify-content: center;
     align-self: center flex-end;
     border: 1px solid lightgray;
-    margin-right: 1rem;
+    /* margin-right: 1rem; */
     padding: 0.3rem 0.4rem;
     border-radius: 50px;
     background-color: white;
-    transform: scale(1.2);
+    transform: scale(1.5);
+    transform-origin: right;
 }
 
 svg {
