@@ -1,123 +1,135 @@
 <template>
-    <div class="category-filter-bar-container">
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/bowling-ball.jpg" alt="">
-            <p>Play</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/castle.jpg" alt="">
-            <p>Castle</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/mansions.jpg" alt="">
-            <p>Mansion</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/bowling-ball.jpg" alt="">
-            <p>Play</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/castle.jpg" alt="">
-            <p>Castle</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/mansions.jpg" alt="">
-            <p>Mansion</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/bowling-ball.jpg" alt="">
-            <p>Play</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/castle.jpg" alt="">
-            <p>Castle</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/mansions.jpg" alt="">
-            <p>Mansion</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/bowling-ball.jpg" alt="">
-            <p>Play</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/castle.jpg" alt="">
-            <p>Castle</p>
-        </button>
-        <button class="radio-icon">
-            <img class="filter-image" src="@/assets/mansions.jpg" alt="">
-            <p>Mansion</p>
-        </button>
-        <button class="open-filters-modal-btn" @click="toggleFilterModal">
-            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;height:14px;width:14px;fill:currentColor" aria-hidden="true" role="presentation" focusable="false"><path d="M5 8c1.306 0 2.418.835 2.83 2H14v2H7.829A3.001 3.001 0 1 1 5 8zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6-8a3 3 0 1 1-2.829 4H2V4h6.17A3.001 3.001 0 0 1 11 2zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path></svg>
-            <span class="open-filters-modal-btn-spn"> Filters</span>
-        </button>
-    </div>
-        <div v-if="filterModal">
-        <div class="filter-modal-background" @click="toggleFilterModal">
-        </div>
-        <div class="filter-modal">
-                <button class="close-filter-modal-btn" @click="toggleFilterModal">X</button>
-                <p>This is all going to be filtering logic.</p>
+    <div class="carousel-window">
+        <div class="carousel-track">
+            <div class="previous-button-fade">
+                <button class="previous-carousel-btn">
+                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><g fill="none"><path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path></g></svg>
+                </button>
             </div>
+            <button v-for="category in categoriesData" class="radio-icon" :key="category.id">
+                <img class="filter-image" :src="category.image" alt="">
+                <p>{{category.name}}</p>
+            </button>
+            <div class="next-button-fade">
+                <button class="next-carousel-btn">
+                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><g fill="none"><path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path></g></svg>
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
-
 <script>
-
 export default {
     name: "CategoriesCarousel",
     data() {
         return {
-            filterModal: false
+            categoriesData: [
+                {
+                    id: 1,
+                    name: "Play",
+                    image: require("@/assets/"+"bowling-ball.jpg")
+                },
+                {
+                    id: 2,
+                    name: "Castle",
+                    image: require("@/assets/"+"castle.jpg")
+                },
+                {
+                    id: 3,
+                    name: "Mansion",
+                    image: require("@/assets/"+"mansions.jpg")
+                },
+                {
+                    id: 4,
+                    name: "Play",
+                    image: require("@/assets/"+"bowling-ball.jpg")
+                },
+                {
+                    id: 5,
+                    name: "Castle",
+                    image: require("@/assets/"+"castle.jpg")
+                },
+                {
+                    id: 6,
+                    name: "Mansion",
+                    image: require("@/assets/"+"mansions.jpg")
+                },
+                {
+                    id: 7,
+                    name: "Play",
+                    image: require("@/assets/"+"bowling-ball.jpg")
+                },
+                {
+                    id: 8,
+                    name: "Castle",
+                    image: require("@/assets/"+"castle.jpg")
+                },
+                {
+                    id: 9,
+                    name: "Mansion",
+                    image: require("@/assets/"+"mansions.jpg")
+                },
+                {
+                    id: 10,
+                    name: "Play",
+                    image: require("@/assets/"+"bowling-ball.jpg")
+                },
+                {
+                    id: 11,
+                    name: "Castle",
+                    image: require("@/assets/"+"castle.jpg")
+                },
+                {
+                    id: 12,
+                    name: "Mansion",
+                    image: require("@/assets/"+"mansions.jpg")
+                },
+                {
+                    id: 13,
+                    name: "Play",
+                    image: require("@/assets/"+"bowling-ball.jpg")
+                },
+                {
+                    id: 14,
+                    name: "Castle",
+                    image: require("@/assets/"+"castle.jpg")
+                },
+                {
+                    id: 15,
+                    name: "Mansion",
+                    image: require("@/assets/"+"mansions.jpg")
+                },
+            ]
         }
-    },
-    methods: {
-        toggleFilterModal() {
-            this.filterModal = !this.filterModal
         }
     }
-}
 </script>
 
-<style>
-div.category-filter-bar-container {
-    position: absolute;
-    top: 5rem;
+<style scoped>
+
+.carousel-window {
     display: flex;
-    justify-content: space-between;
-    padding: 0rem 6rem;
-    padding-top: 2rem;
+    position: relative;
+    flex-direction: row;
+    /* align-items: center;
+    justify-content: center; */
+    height: 100%;
+    width: calc(100% - 6rem);
+}
+
+.carousel-track {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    height: 8rem;
+    /* justify-content: space-around; */
+    height: 100%;
     width: 100%;
-    text-align: left;
-    border-bottom: 0.1rem solid lightgray;
-}
-
-button.open-filters-modal-btn {
-    display: inline-block;
-    /* align-items: center; */
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    font-size: calc(var(--FS-S));
-    font-weight: 600;
-    color: black;
-    cursor: pointer;
-    width: 6rem;
-}
-
-button.open-filters-modal-btn svg {
-    margin-right: 0.5rem;
-}
-
-button.open-filters-modal-btn svg,
-button.open-filters-modal-btn span {
-    vertical-align: middle;
-    display: inline-block;
+    /* Have overflow go to the right */
+    overflow: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
 
 button.radio-icon {
@@ -127,9 +139,12 @@ button.radio-icon {
     background-color: transparent;
     align-items: center;
     justify-content: center;
-    color: rgb(106, 106, 106);
-    opacity: 0.5;
+    /* color: rgb(106, 106, 106); */
+    color: rgb(0, 0, 0);
+    /* opacity: 0.5; */
     transition: opacity 0.2s ease-in-out;
+    margin: 0rem 1rem;
+    cursor: pointer;
 }
 
 button.radio-icon p {
@@ -159,46 +174,92 @@ img {
     background-color: transparent;
 }
 
-div.filter-modal-background {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.658);
+.left-to-right-fade-background {
+    position: absolute;
+    right: 0;
     height: 100%;
-    width: 100%;
-    top: 0;
+    width: 3rem;
+    background:  rgba(255, 255, 255, 1);
+    z-index: 1;
+}
+
+.right-to-left-fade-background {
+    position: absolute;
     left: 0;
-    z-index: 2;
+    height: 100%;
+    width: 3rem;
+    background: rgba(255, 255, 255, 1);
+    z-index: 1;
 }
 
-div.filter-modal {
-    display: grid;
-    grid-template: 2 / 1;
-    position: fixed;
-    top: 10%;
-    left: 10%;
-    height: 80%;
-    width: 80%;
-    background-color: white;
-    border-radius: 1rem;
-    /* transform: translate(-50%, -50%); */
-    z-index: 3;
-}
-
-button.close-filter-modal-btn {
+div.previous-button-fade,
+div.next-button-fade {
     display: flex;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    font-size: calc(var(--FS-S));
-    font-weight: 600;
-    color: black;
-    cursor: pointer;
-    height: 2rem;
-    width: 2rem;
+    position: absolute;
+    right: 0;
+    flex-direction: column;
+    height: 100%;
+    width: 3rem;
     justify-content: center;
     align-items: center;
-    align-self: flex-start;
-    justify-self: flex-end;
-    margin: 1rem;
+    background-color: white;
+    z-index: 1;
 }
+
+div.previous-button-fade {
+    right: unset;
+    left: 0;
+}
+
+div.previous-button-fade::after,
+div.next-button-fade::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 3rem;
+    bottom: 0;
+    width: 2rem;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 1));
+    z-index: 0;
+}
+
+div.previous-button-fade::after {
+    right: unset;
+    left: 3rem;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 1));
+}
+
+button.previous-carousel-btn,
+button.next-carousel-btn {
+    display: flex;
+    position: absolute;
+    right: 0;
+    flex-direction: column;
+    height: 2rem;
+    width: 2rem;
+    background-color: white;
+    border: 1px solid rgb(158, 158, 158);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    /* opacity: 0.5; */
+    transition: opacity 0.2s ease-in-out;
+    /* margin: 0rem 1rem; */
+    z-index: 2;
+    margin-right: 1rem;
+}
+
+button.previous-carousel-btn {
+    left: 0;
+    right: unset;
+    margin-left: 1rem;
+    margin-right: 0rem;
+}
+
+/* button.previous-carousel-btn {
+    left: 0;
+} */
 </style>

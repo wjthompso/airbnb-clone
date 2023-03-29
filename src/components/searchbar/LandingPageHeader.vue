@@ -8,7 +8,7 @@
         </div>
         <visit-search-form v-if="showBookingDetails"></visit-search-form>
     </nav>
-    <categories-carousel></categories-carousel>
+    <categories-carousel-container></categories-carousel-container>
     <div class="results-body">
         <div class="float-left-column"></div>
         <div class="float-right-column"></div>
@@ -22,7 +22,7 @@ import BookingHeaderOptions from './subcomponents/BookingHeaderOptions.vue'
 import AirbnbLogo from './subcomponents/AirbnbLogo.vue'
 import ProfileNotificationButton from './subcomponents/ProfileNotificationButton.vue';
 import VisitSearchForm from './subcomponents/VisitSearchForm.vue';
-import CategoriesCarousel from './subcomponents/CategoriesCarousel.vue';
+import CategoriesCarouselContainer from './subcomponents/CategoriesCarouselContainer.vue';
 
 
 export default {
@@ -32,7 +32,7 @@ export default {
         AirbnbLogo,
         ProfileNotificationButton,
         VisitSearchForm,
-        CategoriesCarousel
+        CategoriesCarouselContainer
     },
     data() {
         return {
@@ -81,12 +81,12 @@ nav.header-container {
     background-color: white;
     box-sizing: border-box;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 
 }
 
 nav.header-container.expanded {
-    height: 12rem;
+    height: 14rem;
     max-height: 14rem;
     display: grid;
     width: 100%;
