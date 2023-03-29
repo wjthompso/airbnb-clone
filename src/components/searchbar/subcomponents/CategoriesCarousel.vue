@@ -1,20 +1,20 @@
 <template>
     <div class="carousel-window">
-        <div class="carousel-track">
-            <!-- <div class="previous-button-fade">
-                <button class="previous-carousel-btn">
+        <div class="previous-button-fade">
+                <button class="previous-carousel-btn" @click="slideLeft">
                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><g fill="none"><path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path></g></svg>
                 </button>
-            </div> -->
+        </div>
+        <div class="carousel-track">
             <button v-for="category in categoriesData" class="radio-icon" :key="category.id">
                 <img class="filter-image" :src="category.image" alt="">
                 <p>{{category.name}}</p>
             </button>
-            <div class="next-button-fade">
-                <button class="next-carousel-btn">
+        </div>
+        <div class="next-button-fade">
+                <button class="next-carousel-btn" @click="slideRight">
                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><g fill="none"><path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path></g></svg>
                 </button>
-            </div>
         </div>
     </div>
 </template>
@@ -110,10 +110,33 @@ export default {
                     name: "Castle",
                     image: require("@/assets/"+"castle.jpg")
                 },
-            ]
+            ],
+            slideIdx: 0
         }
+    },
+    mounted() {
+        // Calculate the width of each carousel item, then calculate the width of the carousel track
+        // and set the width of the carousel track to the width of all the carousel items
+        const carouselItems = document.querySelectorAll('.carousel-track button');
+        const carouselTrack = document.querySelector('.carousel-track');
+        const carouselItemWidth = carouselItems[0].getBoundingClientRect().width;
+        carouselTrack.style.width = (carouselItemWidth * carouselItems.length) + 'px';
+    },
+    methods: {
+        slideRight() {
+            this.slideIdx += 1;
+            const carouselTrack = document.querySelector('.carousel-track');
+            const carouselWidth = carouselTrack.getBoundingClientRect().width;
+            carouselTrack.style.transform = 'translateX(-' + (carouselWidth/2)*this.slideIdx + 'px)';
+        },
+        slideLeft() {
+            this.slideIdx -= 1;
+            const carouselTrack = document.querySelector('.carousel-track');
+            const carouselWidth = carouselTrack.getBoundingClientRect().width;
+            carouselTrack.style.transform = 'translateX(-' + (carouselWidth/2)*this.slideIdx + 'px)';
         }
     }
+}
 </script>
 
 <style scoped>
@@ -126,6 +149,7 @@ export default {
     justify-content: center; */
     height: 100%;
     width: calc(100% - 6rem);
+    overflow: hidden;
 }
 
 .carousel-track {
@@ -136,10 +160,11 @@ export default {
     height: 100%;
     width: 100%;
     /* Have overflow go to the right */
-    overflow: hidden;
+    
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    transition: transform 0.5s ease-in-out;
 }
 
 button.radio-icon {
