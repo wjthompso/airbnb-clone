@@ -2,9 +2,9 @@
     <div class="booking-options-parent-container">
         <div class="booking-options-container">
             <a href="#" class="booking-option">Anywhere</a>
-            <span class="booking-option-separator">|</span>
+            <div class="booking-option-separator"></div>
             <a href="#" class="booking-option">Any week</a>
-            <span class="booking-option-separator">|</span>
+            <div class="booking-option-separator"></div>
             <a href="#" class="booking-option add-guests">Add guests</a>
             <div class="svg-container">
                 <svg fill="#000000" height="25px" width="25px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -50,6 +50,7 @@ div.booking-options-parent-container {
     display: flex;
     align-content: center;
     justify-content: center;
+    height: 3rem;
     /* height: 100%; */
 }
 
@@ -67,11 +68,12 @@ div.booking-options-parent-container {
 }
 
 a.booking-option {
-  display: inline-block;
+  align-self: center;
+  display: inline-flex;
   margin-right: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #484848;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #000000;
   text-decoration: none;
 }
 
@@ -85,8 +87,13 @@ a.add-guests {
 }
 
 .booking-option-separator {
-  display: inline-block;
-  margin-right: 10px;
+  display: flex;
+  align-self: center;
+  height: 55%;
+  width: 1px;
+  background-color: rgb(203, 203, 203);
+  margin-right: 0.8rem;
+  margin-left: 0.4rem;
   font-size: 14px;
   font-weight: 600;
   color: #484848;
@@ -96,24 +103,28 @@ a.add-guests {
 div.svg-container {
   display: flex;
   align-items: center;
+  justify-content: center;
   background-color: #ff385c;
   border-radius: 50%;
   color: white;
   margin: 10px 0px;
-  padding: 5px;
+  aspect-ratio: 1/1;
+  /* padding: 5px; */
 }
 
 svg#Capa_1 {
   align-items: center;
-  padding: 6px;
-  height: 14px;
-  width: 14px;
+  padding: 4px;
+  height: 11px;
+  width: 11px;
   box-sizing: content-box;
 }
 
 svg path {
     fill: white;
     /* Make the width of the strokes a little larger*/
+    filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
+
     
 }
 </style>
