@@ -1,6 +1,6 @@
 <template>
     <div class="carousel-window">
-        <div class="previous-button-fade">
+        <div class="previous-button-fade disappear">
                 <button class="previous-carousel-btn" @click="slideLeft">
                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><g fill="none"><path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path></g></svg>
                 </button>
@@ -20,6 +20,12 @@
 </template>
 
 <script>
+
+// Keep track of window width
+// Keep track of the current slide (window)
+// Keep track of the number of slides that are potentially visible
+// Keep track of the number of slides that are actually visible
+
 export default {
     name: "CategoriesCarousel",
     data() {
@@ -110,30 +116,158 @@ export default {
                     name: "Castle",
                     image: require("@/assets/"+"castle.jpg")
                 },
+                {
+                    id: 18,
+                    name: "Play",
+                    image: require("@/assets/"+"bowling-ball.jpg")
+                },
+                {
+                    id: 19,
+                    name: "Castle",
+                    image: require("@/assets/"+"castle.jpg")
+                },
+                {
+                    id: 20,
+                    name: "Mansion",
+                    image: require("@/assets/"+"mansions.jpg")
+                },
+                {
+                    id: 21,
+                    name: "Play",
+                    image: require("@/assets/"+"bowling-ball.jpg")
+                },
+                {
+                    id: 22,
+                    name: "Castle",
+                    image: require("@/assets/"+"castle.jpg")
+                },
+                {
+                    id: 23,
+                    name: "Mansion",
+                    image: require("@/assets/"+"mansions.jpg")
+                },
+                {
+                    id: 24,
+                    name: "Play",
+                    image: require("@/assets/"+"bowling-ball.jpg")
+                },
+                {
+                    id: 25,
+                    name: "Castle",
+                    image: require("@/assets/"+"castle.jpg")
+                },
             ],
-            slideIdx: 0
+            iconsToLeft: 0,
+            carouselAverageItemWidth: 0,
+            oldWindowWidth: 0,
+            oldMaxWindowWidth: 0,
+            alreadyExpanded: false
         }
     },
     mounted() {
-        // Calculate the width of each carousel item, then calculate the width of the carousel track
-        // and set the width of the carousel track to the width of all the carousel items
-        const carouselItems = document.querySelectorAll('.carousel-track button');
+        const carouselItems = document.querySelectorAll('.carousel-track button.radio-icon');
         const carouselTrack = document.querySelector('.carousel-track');
-        const carouselItemWidth = carouselItems[0].getBoundingClientRect().width;
-        carouselTrack.style.width = (carouselItemWidth * carouselItems.length) + 'px';
+        
+        for (let i = 0; i < carouselItems.length; i++) {
+            this.carouselAverageItemWidth += carouselItems[i].getBoundingClientRect().width;
+            let style = getComputedStyle(carouselItems[i]);
+            style = getComputedStyle(carouselItems[0]);
+            const marginLeft = parseInt(style.marginLeft);
+            const marginRight = parseInt(style.marginRight);
+            this.carouselAverageItemWidth += marginLeft + marginRight;
+        }
+
+        this.carouselAverageItemWidth = this.carouselAverageItemWidth / carouselItems.length;
+
+        console.log(this.carouselAverageItemWidth);
+        carouselTrack.style.width = (this.carouselAverageItemWidth * carouselItems.length) + 'px';
+
+        // Get current window width
+        this.oldWindowWidth = window.innerWidth;
+        this.oldMaxWindowWidth = window.innerWidth;
+
+        // Add window resize listener
+        window.addEventListener('resize', this.handleResize);
     },
+
     methods: {
-        slideRight() {
-            this.slideIdx += 1;
+        handleResize() {
+            let changeInWindowWidth = window.innerWidth - this.oldWindowWidth;
+            this.oldWindowWidth = window.innerWidth;
+            if (changeInWindowWidth < 0) {
+                const nextButton = document.querySelector('.next-button-fade');
+                nextButton.classList.remove('disappear');
+            }
+            if (changeInWindowWidth > 0 && window.innerWidth > this.oldMaxWindowWidth) {
+
+                this.oldMaxWindowWidth = window.innerWidth;
+                let newIconsToLeft = this.iconsToLeft - (changeInWindowWidth / this.carouselAverageItemWidth);
+                if (newIconsToLeft < 0) {
+                    newIconsToLeft = 0;
+                }
+                this.iconsToLeft = newIconsToLeft;
+            } else {
+                return;
+            }
+
             const carouselTrack = document.querySelector('.carousel-track');
-            const carouselWidth = carouselTrack.getBoundingClientRect().width;
-            carouselTrack.style.transform = 'translateX(-' + (carouselWidth/2)*this.slideIdx + 'px)';
+            carouselTrack.classList.add('temporarily-remove-transition');
+            carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
+            setInterval(() => {
+                carouselTrack.classList.remove('temporarily-remove-transition');
+            }, 100);
+        },
+        slideRight() {
+            const carouselTrack = document.querySelector('.carousel-track');
+            const carouselWindow = document.querySelector('.carousel-window');
+            const carouselTrackWidth = carouselTrack.getBoundingClientRect().width;
+            const carouselWindowWidth = carouselWindow.getBoundingClientRect().width;
+
+            let halfWindowWidth = Math.floor(carouselWindowWidth/(2*this.carouselAverageItemWidth));
+            let remainingWidthInIconUnits = (carouselTrackWidth - this.iconsToLeft*this.carouselAverageItemWidth - carouselWindowWidth) / this.carouselAverageItemWidth;
+
+            const nextButton = document.querySelector('.next-button-fade');
+            const previousButton = document.querySelector('.previous-button-fade');
+            if (remainingWidthInIconUnits < halfWindowWidth) {
+                this.iconsToLeft += remainingWidthInIconUnits;
+                // Hide the next button/right arrow
+                nextButton.classList.add('disappear');
+                previousButton.classList.remove('disappear');
+            } else {
+                this.iconsToLeft += halfWindowWidth;
+                nextButton.classList.remove('disappear');
+                previousButton.classList.remove('disappear');
+            }
+
+            carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
+            this.oldMaxWindowWidth = window.innerWidth;
         },
         slideLeft() {
-            this.slideIdx -= 1;
             const carouselTrack = document.querySelector('.carousel-track');
-            const carouselWidth = carouselTrack.getBoundingClientRect().width;
-            carouselTrack.style.transform = 'translateX(-' + (carouselWidth/2)*this.slideIdx + 'px)';
+            const carouselWindow = document.querySelector('.carousel-window');
+            const carouselWindowWidth = carouselWindow.getBoundingClientRect().width;
+
+            let halfWindowWidth = Math.floor(carouselWindowWidth/(2*this.carouselAverageItemWidth));
+
+            console.log("halfWindowWidth: " + halfWindowWidth);
+
+            // let marginalIncrease = Math.min(halfWindowWidth, remainingWidthInIconUnits);
+            const previousButton = document.querySelector('.previous-button-fade');
+            const nextButton = document.querySelector('.next-button-fade');
+            if (this.iconsToLeft < halfWindowWidth) {
+                this.iconsToLeft = 0;
+                // Hide the next button/right arrow
+                previousButton.classList.add('disappear');
+                nextButton.classList.remove('disappear');
+            } else {
+                this.iconsToLeft -= halfWindowWidth;
+                previousButton.classList.remove('disappear');
+                nextButton.classList.remove('disappear');
+            }
+
+            console.log("iconsToLeft: " + this.iconsToLeft);
+
+            carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
         }
     }
 }
@@ -164,7 +298,11 @@ export default {
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+}
+
+div.carousel-track.temporarily-remove-transition {
+    transition: none;
 }
 
 button.radio-icon {
@@ -174,9 +312,9 @@ button.radio-icon {
     background-color: transparent;
     align-items: center;
     justify-content: center;
-    color: rgb(106, 106, 106);
+    color: rgb(0, 0, 0);
     /* color: rgb(0, 0, 0); */
-    opacity: 0.5;
+    opacity: 0.65;
     transition: opacity 0.2s ease-in-out;
     margin: 0rem 1rem;
     cursor: pointer;
@@ -196,6 +334,7 @@ button.radio-icon:hover {
     text-decoration-thickness: 0.2rem;
     opacity: 1;
     transition: opacity 0.2s ease-in-out;
+    font-weight: 500;
 }
 
 img {
@@ -239,6 +378,12 @@ div.next-button-fade {
     align-items: center;
     background-color: white;
     z-index: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.disappear {
+    opacity: 0;
+    pointer-events: none;
 }
 
 div.previous-button-fade {
@@ -281,7 +426,7 @@ button.next-carousel-btn {
     cursor: pointer;
     color: rgb(0, 0, 0);
     /* opacity: 0.5; */
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.1s ease-in-out;
     /* margin: 0rem 1rem; */
     z-index: 2;
     margin-right: 1rem;
