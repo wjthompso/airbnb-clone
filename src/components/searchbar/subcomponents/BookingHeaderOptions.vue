@@ -64,7 +64,9 @@ div.booking-options-parent-container {
   box-shadow: 1px 1px 2px rgba(77, 77, 77, 0.2);
   border-radius: 10rem;
   line-height: 3.5;
-  padding: 0rem 1.5rem;
+  padding: 0rem;
+  padding-left: 1.5rem;
+  padding-right: 0.75rem;
 }
 
 a.booking-option {
@@ -108,19 +110,23 @@ div.svg-container {
   border-radius: 50%;
   color: white;
   margin: 10px 0px;
+  margin-left: 0.5rem;
   aspect-ratio: 1/1;
+  transform: scale(1.3);
   /* padding: 5px; */
 }
 
 svg#Capa_1 {
   align-items: center;
   padding: 4px;
-  height: 11px;
-  width: 11px;
+  height: 12px;
+  width: 12px;
   box-sizing: content-box;
 }
 
 svg path {
+    display: flex;
+    /* transform: scale(0.8); */
     fill: white;
     /* Make the width of the strokes a little larger*/
     filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
