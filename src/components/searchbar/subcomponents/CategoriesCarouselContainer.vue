@@ -124,7 +124,7 @@ div.filter-modal-background {
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 2;
+    z-index: 3;
 }
 
 div.filter-modal {
@@ -138,7 +138,7 @@ div.filter-modal {
     background-color: white;
     border-radius: 1rem;
     /* transform: translate(-50%, -50%); */
-    z-index: 3;
+    z-index: 4;
 }
 
 button.close-filter-modal-btn {

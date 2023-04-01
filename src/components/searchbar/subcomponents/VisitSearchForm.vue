@@ -116,10 +116,15 @@ form.search-form {
     justify-self: center;
     width: 54rem;
     height: 5rem;
-    background-color: rgb(235,235,235);
-    border: 0.5px solid rgb(190, 190, 190);
+    background-color: rgb(255, 255, 255);
+    border: 0.3px solid rgb(220, 220, 220);
     border-radius: 100px;
+    margin-bottom: 1rem;
     /* margin: 2rem 0; */
+}
+
+form.search-form:focus-within {
+    background-color: rgb(233, 233, 239);
 }
 
 .make-invisible {
@@ -193,19 +198,6 @@ div.who-guests-number-search div.who-guests-number-search-input {
     padding-left: 2rem;
 }
 
-/* div.search-option.where-search::after,
-div.search-option.check-in-date-search::after,
-div.search-option.check-out-date-search::after {
-    content: "";
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100%;
-    border: 0.5px solid rgb(0, 0, 0);
-    float: left;
-} */
-
 input#when-end {
     width: 100%;
 }
@@ -270,15 +262,18 @@ button.submit-search-options svg {
 /* div.search-option.active */
 div.search-option:focus-within,
 div.search-option:focus {
+    transform: scaleY(1.02);
     outline: none;
     background-color: white;
     border-radius: 100px;
+    height: 100%;
     /* Create a box shadow underneath the div */
-    box-shadow: 4px 4px 20px 10px rgba(97, 97, 97, 0.25);
+    /* box-shadow: 4px 4px 20px 10px rgba(97, 97, 97, 0.25); */
+    box-shadow: 0px 17px 15px 1px rgba(97, 97, 97, 0.25);
 }
 
 div.search-option:not(:focus-within):hover {
-    background-color: rgba(157, 157, 157, 0.711);
+    background-color: rgba(209, 209, 209, 0.821);
     border-radius: 100px;
 }
 

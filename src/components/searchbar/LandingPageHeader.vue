@@ -3,11 +3,15 @@
         <!-- <img :src="icon" alt="icon"> -->
         <div class="unexpanded-header">
             <airbnb-logo></airbnb-logo>
-            <booking-header-options @click="toggleShowBookingOptions"></booking-header-options>
+            <booking-header-options v-if="!showBookingDetails" @click="toggleShowBookingOptions"></booking-header-options>
+            <stays-experiences-header v-else></stays-experiences-header>
             <profile-notification-button></profile-notification-button>
         </div>
-        <visit-search-form v-if="showBookingDetails"></visit-search-form>
+        <transition name="visit-search-form-transform" @after-leave="handleTransitionLeave">
+            <visit-search-form v-if="showBookingDetails"></visit-search-form>
+        </transition>
     </nav>
+    <div v-if="showBookingDetails" class="background-grayout-for-booking-details" @click="toggleShowBookingOptions"></div>
     <categories-carousel-container></categories-carousel-container>
     <div class="results-body">
         <div class="float-left-column"></div>
@@ -23,6 +27,7 @@ import AirbnbLogo from './subcomponents/AirbnbLogo.vue'
 import ProfileNotificationButton from './subcomponents/ProfileNotificationButton.vue';
 import VisitSearchForm from './subcomponents/VisitSearchForm.vue';
 import CategoriesCarouselContainer from './subcomponents/CategoriesCarouselContainer.vue';
+import StaysExperiencesHeader from './subcomponents/StaysExperiencesHeader.vue';
 
 
 export default {
@@ -32,7 +37,8 @@ export default {
         AirbnbLogo,
         ProfileNotificationButton,
         VisitSearchForm,
-        CategoriesCarouselContainer
+        CategoriesCarouselContainer,
+        StaysExperiencesHeader
     },
     data() {
         return {
@@ -44,17 +50,16 @@ export default {
         showBookingDetails() {
             if (this.showBookingDetails) {
                 document.querySelector('.header-container').classList.add('expanded');
-            } else {
-                document.querySelector('.header-container').classList.remove('expanded');
-            }
+            } 
+            // Wait for the "after-leave" transition event to fire before removing the expanded class
         }
     },
     methods: {
-        // toggleFilterModal() {
-        //     this.filterModal = !this.filterModal;
-        // },
         toggleShowBookingOptions() {
             this.showBookingDetails = !this.showBookingDetails;
+        },
+        handleTransitionLeave() {
+            document.querySelector('.header-container').classList.remove('expanded');
         }
     }
 }
@@ -74,7 +79,9 @@ nav.header-container {
     padding: 0rem 6rem;
     /* padding-top: 2rem; */
     align-items: center;
-    height: 5rem;
+    height: auto;
+    min-height: 5rem;
+    max-height: 11rem;
     width: 100%;
     text-align: left;
     border-bottom: 0.05rem solid lightgray;
@@ -82,17 +89,16 @@ nav.header-container {
     box-sizing: border-box;
     position: relative;
     z-index: 3;
-
 }
 
 nav.header-container.expanded {
-    height: 14rem;
-    max-height: 14rem;
+    height: 11rem;
+    max-height: 11rem;
     display: grid;
     width: 100%;
     grid-template: 5rem 1fr / 1fr;
     flex-wrap: wrap;
-    box-sizing: border-box;
+    box-sizing: border-box; 
 }
 
 div.unexpanded-header {
@@ -100,6 +106,36 @@ div.unexpanded-header {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+}
+
+/* Classes for transition visit-search-form-transform */
+
+.visit-search-form-transform-enter-from, .visit-search-form-transform-leave-to {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.5);
+}
+
+.visit-search-form-transform-enter-active, .visit-search-form-transform-leave-active {
+    transition: opacity 0.1s ease, transform 0.1s ease;
+    opacity: 0.5;
+    transform: translateY(-50%) scale(0.5);
+}
+
+.visit-search-form-transform-enter-to, .visit-search-form-transform-leave-from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* End of classes for transition */
+
+div.background-grayout-for-booking-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
 }
 
 div.results-body {
