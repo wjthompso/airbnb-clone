@@ -18,19 +18,34 @@
                 </div>
             </div>
             <div class="search-option-seperator"></div>
-            <div @mouseenter="toggleSeparatorsApperance" @mouseleave="toggleSeparatorsApperance" @blur="toggleSeparatorsApperance" class="search-option check-in-date-search" tabindex="-1">
+            <div @mouseenter="toggleSeparatorsApperance" 
+                 @mouseleave="toggleSeparatorsApperance" 
+                 @blur="toggleSeparatorsApperance" 
+                 class="search-option check-in-date-search" 
+                 tabindex="-1"
+            >
                 <h3>Check in</h3>
                 <input type="text" @blur="toggleParentsAppearance" name="when-start" id="where-start" class="search-option-input" placeholder="Add dates">
                 <div class="checkin-checkout-dropdown"></div>
             </div>
             <div class="search-option-seperator"></div>
-            <div @mouseenter="toggleSeparatorsApperance" @mouseleave="toggleSeparatorsApperance" @blur="toggleSeparatorsApperance" class="search-option check-out-date-search" tabindex="-1">
+            <div @mouseenter="toggleSeparatorsApperance" 
+                 @mouseleave="toggleSeparatorsApperance" 
+                 @blur="toggleSeparatorsApperance" 
+                 class="search-option check-out-date-search" 
+                 tabindex="-1"
+            >
                 <h3>Check out</h3>
                 <input type="text" @blur="toggleParentsAppearance" name="when-end" id="when-end" class="search-option-input" placeholder="Add dates">
                 <div class="checkin-checkout-dropdown"></div>
             </div>
             <div class="search-option-seperator"></div>
-            <div @mouseenter="toggleSeparatorsApperance" @mouseleave="toggleSeparatorsApperance" @blur="toggleSeparatorsApperance" class="search-option who-guests-number-search" tabindex="-1">
+            <div @mouseenter="toggleSeparatorsApperance" 
+                 @mouseleave="toggleSeparatorsApperance" 
+                 @blur="toggleSeparatorsApperance" 
+                 class="search-option who-guests-number-search" 
+                 tabindex="-1"
+            >
                 <div class="who-guests-number-search-input">
                     <h3 focusable="false">Who</h3>
                     <input type="text" @blur="toggleParentsAppearance" name="when-end" id="when-end" class="search-option-input" placeholder="Add guests">
@@ -48,6 +63,10 @@
 <script>
 export default {
     name: 'VisitSearchForm',
+    mounted() {
+            // Add window event listener for a blur event
+            window.addEventListener('blur', this.showAllSeparators);
+    },
     methods: {
         hoverHighlight(e) {
             let buttonContainer = e.target;
@@ -66,6 +85,17 @@ export default {
             buttonContainer.style.setProperty("--highlight-x", `${x}px`);
             buttonContainer.style.setProperty("--highlight-y", `${y}px`);
         },
+        showAllSeparators() {
+            setTimeout(function() {
+                console.log("All separators are being shown.");
+                let separators = document.querySelectorAll(".search-option-seperator");
+                console.log(separators);
+                for (let i = 0; i < separators.length; i++) {
+                    separators[i].classList.remove("make-invisible");
+                }
+                console.log(separators);
+                }, 50);
+        },
         toggleParentsAppearance(e) {
             let eventType = e.type;
             console.log(eventType);
@@ -79,30 +109,68 @@ export default {
 
             // Construct a new event object with the parent element as the target
             let parentEvent = new Event('blur');
+            console.log("A blur event is being emitted.")
             parentElement.dispatchEvent(parentEvent);
             // parentEvent.target = parentElement;
         },
         toggleSeparatorsApperance(e) {
-            console.log("This is the incoming event", e);
-            let eventType = e.type;
-            console.log(eventType);
             let currentElement = e.target;
             let previousElement = currentElement.previousElementSibling;
             let nextElement = currentElement.nextElementSibling;
+            console.log("This is the type of event: " + e.type);
 
-            // Check if the current element or its descendants are in focus
-            if (currentElement.matches(':focus-within')) {
-                return;
-            }
+            // Add a quick wait to allow the focus-within pseudo class to be applied
+            setTimeout(() => {
+                // Check if the current element or its descendants are in focus
+                if (currentElement.matches(':focus-within')) {
+                    console.log("The current element is in focus.");
+                    return;
+                }
 
-            // Toggle the make-invisible class on the appropriate separator element
-            if (previousElement && previousElement.classList.contains("search-option-seperator")) {
-                previousElement.classList.toggle("make-invisible");
-            }
-            if (nextElement && nextElement.classList.contains("search-option-seperator")) {
-                nextElement.classList.toggle("make-invisible");
-            }
-            }
+                // Get the previous element sibling of the previous element sibling
+                let prevPrevElement = previousElement?.previousElementSibling;
+
+                // Get the next element sibling of the next element sibling
+                let nextNextElement = nextElement?.nextElementSibling;
+
+                // Toggle the make-invisible class on the appropriate separator element
+                if (previousElement && previousElement.classList.contains("search-option-seperator") && !prevPrevElement?.matches(':focus-within')) {
+                    console.log("The previous element is being toggled.")
+                    previousElement.classList.toggle("make-invisible");
+                }
+                if (nextElement && nextElement.classList.contains("search-option-seperator") && !nextNextElement?.matches(':focus-within')) {
+                    console.log("The next element is being toggled.")
+                    nextElement.classList.toggle("make-invisible");
+                }
+            }, 10);
+        },
+        showSibblingSeparators(e, previousElement, nextElement) {
+            setTimeout(() => {
+                let prevPrevElement = previousElement?.previousElementSibling;
+                let nextNextElement = nextElement?.nextElementSibling;
+
+                // Toggle the make-invisible class on the appropriate separator element
+                if (previousElement && previousElement.classList.contains("search-option-seperator") && !prevPrevElement?.matches(':focus-within')) {
+                    previousElement.classList.add("make-invisible");
+                }
+                if (nextElement && nextElement.classList.contains("search-option-seperator") && !nextNextElement?.matches(':focus-within')) {
+                    nextElement.classList.add("make-invisible");
+                }
+            }, 10);
+        },
+        hideSibblingSeparators(e, previousElement, nextElement) {
+            setTimeout(() => {
+                let prevPrevElement = previousElement?.previousElementSibling;
+                let nextNextElement = nextElement?.nextElementSibling;
+
+                if (previousElement && previousElement.classList.contains("search-option-seperator") && !prevPrevElement?.matches(':focus-within')) {
+                    previousElement.classList.remove("make-invisible");
+                }
+                if (nextElement && nextElement.classList.contains("search-option-seperator") && !nextNextElement?.matches(':focus-within')) {
+                    nextElement.classList.remove("make-invisible");
+                }
+            }, 10);
+        }
     }
 }
 </script>
@@ -257,9 +325,6 @@ button.submit-search-options svg {
     z-index: 3;
 }
 
-/* div.search-option:focus */
-/* div.search-option:active, */
-/* div.search-option.active */
 div.search-option:focus-within,
 div.search-option:focus {
     transform: scaleY(1.02);
@@ -268,7 +333,6 @@ div.search-option:focus {
     border-radius: 100px;
     height: 100%;
     /* Create a box shadow underneath the div */
-    /* box-shadow: 4px 4px 20px 10px rgba(97, 97, 97, 0.25); */
     box-shadow: 0px 17px 15px 1px rgba(97, 97, 97, 0.25);
 }
 
