@@ -1,9 +1,12 @@
 <template>
     <form @submit.prevent action="/" method="get" class="search-form">
         <div class="search-form-container">
-            <div @mouseenter="toggleSeparatorsApperance" @mouseleave="toggleSeparatorsApperance" @blur="toggleSeparatorsApperance"  class="search-option where-search" tabindex="-1">
+            <div @mouseenter="hideSibblingSeparators" 
+                 @mouseleave="showSibblingSeparators"
+                 @focusin="hideSibblingSeparators"
+                 @blur="showSibblingSeparators"  class="search-option where-search" tabindex="-1">
                 <h3>Where</h3>
-                <input type="text" @blur="toggleParentsAppearance" name="where" id="where" class="search-option-input" placeholder="Search destinations">
+                <input type="text" @blur="triggerParentsBlurEvent" name="where" id="where" class="search-option-input" placeholder="Search destinations">
                 <div class="search-by-region-dropdown">
                     <div class="grid-item-1">
                         <h1>Search by region</h1>
@@ -18,9 +21,10 @@
                 </div>
             </div>
             <div class="search-option-seperator"></div>
-            <div @mouseenter="toggleSeparatorsApperance" 
-                 @mouseleave="toggleSeparatorsApperance" 
-                 @blur="toggleSeparatorsApperance" 
+            <div @mouseenter="hideSibblingSeparators" 
+                 @mouseleave="showSibblingSeparators"
+                 @focusin="hideSibblingSeparators"
+                 @blur="showSibblingSeparators" 
                  class="search-option check-in-date-search" 
                  tabindex="-1"
             >
@@ -29,9 +33,10 @@
                 <div class="checkin-checkout-dropdown"></div>
             </div>
             <div class="search-option-seperator"></div>
-            <div @mouseenter="toggleSeparatorsApperance" 
-                 @mouseleave="toggleSeparatorsApperance" 
-                 @blur="toggleSeparatorsApperance" 
+            <div @mouseenter="hideSibblingSeparators" 
+                 @mouseleave="showSibblingSeparators"
+                 @blur="showSibblingSeparators"
+                 @focusin="hideSibblingSeparators"
                  class="search-option check-out-date-search" 
                  tabindex="-1"
             >
@@ -40,9 +45,10 @@
                 <div class="checkin-checkout-dropdown"></div>
             </div>
             <div class="search-option-seperator"></div>
-            <div @mouseenter="toggleSeparatorsApperance" 
-                 @mouseleave="toggleSeparatorsApperance" 
-                 @blur="toggleSeparatorsApperance" 
+            <div @mouseenter="hideSibblingSeparators" 
+                 @mouseleave="showSibblingSeparators"
+                 @blur="showSibblingSeparators" 
+                 @focusin="hideSibblingSeparators"
                  class="search-option who-guests-number-search" 
                  tabindex="-1"
             >
@@ -96,7 +102,7 @@ export default {
                 console.log(separators);
                 }, 50);
         },
-        toggleParentsAppearance(e) {
+        triggerParentsBlurEvent(e) {
             let eventType = e.type;
             console.log(eventType);
             let currentElement = e.target;
@@ -113,64 +119,43 @@ export default {
             parentElement.dispatchEvent(parentEvent);
             // parentEvent.target = parentElement;
         },
-        toggleSeparatorsApperance(e) {
+        showSibblingSeparators(e) {
             let currentElement = e.target;
             let previousElement = currentElement.previousElementSibling;
             let nextElement = currentElement.nextElementSibling;
-            console.log("This is the type of event: " + e.type);
 
-            // Add a quick wait to allow the focus-within pseudo class to be applied
-            setTimeout(() => {
-                // Check if the current element or its descendants are in focus
-                if (currentElement.matches(':focus-within')) {
-                    console.log("The current element is in focus.");
+            if (currentElement.matches(':focus-within')) {
                     return;
-                }
+            }
 
-                // Get the previous element sibling of the previous element sibling
-                let prevPrevElement = previousElement?.previousElementSibling;
-
-                // Get the next element sibling of the next element sibling
-                let nextNextElement = nextElement?.nextElementSibling;
-
-                // Toggle the make-invisible class on the appropriate separator element
-                if (previousElement && previousElement.classList.contains("search-option-seperator") && !prevPrevElement?.matches(':focus-within')) {
-                    console.log("The previous element is being toggled.")
-                    previousElement.classList.toggle("make-invisible");
-                }
-                if (nextElement && nextElement.classList.contains("search-option-seperator") && !nextNextElement?.matches(':focus-within')) {
-                    console.log("The next element is being toggled.")
-                    nextElement.classList.toggle("make-invisible");
-                }
-            }, 10);
-        },
-        showSibblingSeparators(e, previousElement, nextElement) {
-            setTimeout(() => {
                 let prevPrevElement = previousElement?.previousElementSibling;
                 let nextNextElement = nextElement?.nextElementSibling;
 
                 // Toggle the make-invisible class on the appropriate separator element
-                if (previousElement && previousElement.classList.contains("search-option-seperator") && !prevPrevElement?.matches(':focus-within')) {
-                    previousElement.classList.add("make-invisible");
-                }
-                if (nextElement && nextElement.classList.contains("search-option-seperator") && !nextNextElement?.matches(':focus-within')) {
-                    nextElement.classList.add("make-invisible");
-                }
-            }, 10);
-        },
-        hideSibblingSeparators(e, previousElement, nextElement) {
-            setTimeout(() => {
-                let prevPrevElement = previousElement?.previousElementSibling;
-                let nextNextElement = nextElement?.nextElementSibling;
-
                 if (previousElement && previousElement.classList.contains("search-option-seperator") && !prevPrevElement?.matches(':focus-within')) {
                     previousElement.classList.remove("make-invisible");
                 }
                 if (nextElement && nextElement.classList.contains("search-option-seperator") && !nextNextElement?.matches(':focus-within')) {
                     nextElement.classList.remove("make-invisible");
                 }
-            }, 10);
-        }
+        },
+        hideSibblingSeparators(e) {
+            console.log("This is the event type that caused the hideSibblingSeparators method to be called: " + e.type);
+
+            let currentElement = e.target;
+            let previousElement = currentElement.previousElementSibling;
+            let nextElement = currentElement.nextElementSibling;
+
+                let prevPrevElement = previousElement?.previousElementSibling;
+                let nextNextElement = nextElement?.nextElementSibling;
+
+                if (previousElement && previousElement.classList.contains("search-option-seperator") && !prevPrevElement?.matches(':focus-within')) {
+                    previousElement.classList.add("make-invisible");
+                }
+                if (nextElement && nextElement.classList.contains("search-option-seperator") && !nextNextElement?.matches(':focus-within')) {
+                    nextElement.classList.add("make-invisible");
+                }
+            }, 
     }
 }
 </script>
