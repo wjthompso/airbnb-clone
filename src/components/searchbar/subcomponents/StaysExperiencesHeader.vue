@@ -40,6 +40,8 @@ div.alternative-experiences-header p {
     color: rgb(34, 34, 34);
     cursor: pointer;
     overflow-x: hidden;
+    /* No wrap */
+    /* white-space: nowrap; */
 }
 
 div.alternative-experiences-header div.text-wrapper p {

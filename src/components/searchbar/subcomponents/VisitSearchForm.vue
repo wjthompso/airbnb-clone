@@ -7,18 +7,7 @@
                  @blur="showSibblingSeparators"  class="search-option where-search" tabindex="-1">
                 <h3>Where</h3>
                 <input type="text" @blur="triggerParentsBlurEvent" name="where" id="where" class="search-option-input" placeholder="Search destinations">
-                <div class="search-by-region-dropdown">
-                    <div class="grid-item-1">
-                        <h1>Search by region</h1>
-                    </div>
-                    <div class="grid-item-2">
-                        <img src="@/assets/whole-globe.jpg" alt="" class="whole-globe-option">
-                        <h3>I'm flexible</h3>
-                    </div>
-                    <div class="grid-item-3"></div>
-                    <div class="grid-item-4"></div>
-                    <div class="grid-item-5"></div>
-                </div>
+                <where-drop-down></where-drop-down>
             </div>
             <div class="search-option-seperator"></div>
             <div @mouseenter="hideSibblingSeparators" 
@@ -30,7 +19,7 @@
             >
                 <h3>Check in</h3>
                 <input type="text" @blur="toggleParentsAppearance" name="when-start" id="where-start" class="search-option-input" placeholder="Add dates">
-                <div class="checkin-checkout-dropdown"></div>
+                <check-in-dropdown></check-in-dropdown>
             </div>
             <div class="search-option-seperator"></div>
             <div @mouseenter="hideSibblingSeparators" 
@@ -38,11 +27,10 @@
                  @blur="showSibblingSeparators"
                  @focusin="hideSibblingSeparators"
                  class="search-option check-out-date-search" 
-                 tabindex="-1"
-            >
+                 tabindex="-1">
                 <h3>Check out</h3>
                 <input type="text" @blur="toggleParentsAppearance" name="when-end" id="when-end" class="search-option-input" placeholder="Add dates">
-                <div class="checkin-checkout-dropdown"></div>
+                <check-out-dropdown></check-out-dropdown>
             </div>
             <div class="search-option-seperator"></div>
             <div @mouseenter="hideSibblingSeparators" 
@@ -60,18 +48,30 @@
                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 4; overflow: visible;"><g fill="none"><path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path></g></svg>
                     <p focusable="false">Search</p>
                 </button>
-                <div class="checkin-checkout-dropdown"></div>
+                <who-guests-dropdown></who-guests-dropdown>
             </div>
         </div>
     </form>
 </template>
 
 <script>
+import WhereDropDown from './VisitSearchFormComponents/WhereDropdown.vue';
+import CheckInDropdown from './VisitSearchFormComponents/CheckInDropdown.vue';
+import CheckOutDropdown from './VisitSearchFormComponents/CheckOutDropdown.vue';
+import WhoGuestsDropdown from './VisitSearchFormComponents/WhoGuestsDropdown.vue';
+
 export default {
     name: 'VisitSearchForm',
+    components: {
+        WhereDropDown,
+        CheckInDropdown,
+        CheckOutDropdown,
+        WhoGuestsDropdown
+    },
     mounted() {
-            // Add window event listener for a blur event
-            window.addEventListener('blur', this.showAllSeparators);
+ 
+        // Add window event listener for a blur event
+        window.addEventListener('blur', this.showAllSeparators);
     },
     methods: {
         hoverHighlight(e) {
@@ -164,7 +164,6 @@ export default {
 form.search-form {
     display: flex;
     flex-direction: row;
-    /* justify-content: space-between; */
     align-self: center;
     justify-self: center;
     width: 54rem;
@@ -173,23 +172,10 @@ form.search-form {
     border: 0.3px solid rgb(220, 220, 220);
     border-radius: 100px;
     margin-bottom: 1rem;
-    /* margin: 2rem 0; */
 }
 
 form.search-form:focus-within {
     background-color: rgb(233, 233, 239);
-}
-
-.make-invisible {
-    opacity: 0;
-}
-
-div.search-option:not(:focus-within) + div.search-option-seperator {
-    width: 0.5px;
-    height: 3rem;
-    background-color: rgb(190, 190, 190);
-    align-self: center;
-    justify-self: center;
 }
 
 div.search-form-container {
@@ -201,6 +187,40 @@ div.search-form-container {
     position: relative;
 }
 
+/* Define widths for each of the four search options */
+.search-form-container > .search-option:nth-child(1) {
+    width: 50%;
+}
+
+.search-form-container > .search-option:nth-child(2) {
+    width: 15%;
+}
+
+.search-form-container > .search-option:nth-child(3) {
+    width: 15%;
+}
+
+.search-form-container > .search-option:nth-child(4) {
+    padding-left: 2rem;
+    /* padding-right: 1rem; */
+    width: 20%;
+}
+
+/* Seperator for between search options */
+div.search-option:not(:focus-within) + div.search-option-seperator {
+    width: 0.5px;
+    height: 3rem;
+    background-color: rgb(190, 190, 190);
+    align-self: center;
+    justify-self: center;
+}
+
+.make-invisible {
+    opacity: 0;
+}
+
+/* End of seperator classes */
+
 div.search-option {
     display: flex;
     position: relative;
@@ -211,27 +231,6 @@ div.search-option {
     font-weight: 100;
     color: black;
     padding: 0rem 2rem;
-}
-
-
-
-/* Define widths for each of the four search options */
-.search-form-container > .search-option:nth-child(1) {
-    width: 30%;
-}
-
-.search-form-container > .search-option:nth-child(2) {
-    width: 20%;
-}
-
-.search-form-container > .search-option:nth-child(3) {
-    width: 20%;
-}
-
-.search-form-container > .search-option:nth-child(4) {
-    padding-left: 2rem;
-    /* padding-right: 1rem; */
-    width: 30%;
 }
 
 div.search-option.who-guests-number-search {
@@ -251,8 +250,20 @@ div.who-guests-number-search div.who-guests-number-search-input {
     padding-left: 2rem;
 }
 
-input#when-end {
-    width: 100%;
+div.search-option:focus-within,
+div.search-option:focus {
+    transform: scaleY(1.02);
+    outline: none;
+    background-color: white;
+    border-radius: 100px;
+    height: 100%;
+    /* Create a box shadow underneath the div */
+    box-shadow: 0px 17px 15px 1px rgba(97, 97, 97, 0.25);
+}
+
+div.search-option:not(:focus-within):hover {
+    background-color: rgba(209, 209, 209, 0.821);
+    border-radius: 100px;
 }
 
 button.submit-search-options {
@@ -271,6 +282,7 @@ button.submit-search-options {
     align-self: center;
 }
 
+/* Class for the cool mouse radial gradient effect on the search button */
 button.submit-search-options::before {
   content: "";
   position: absolute;
@@ -310,26 +322,6 @@ button.submit-search-options svg {
     z-index: 3;
 }
 
-div.search-option:focus-within,
-div.search-option:focus {
-    transform: scaleY(1.02);
-    outline: none;
-    background-color: white;
-    border-radius: 100px;
-    height: 100%;
-    /* Create a box shadow underneath the div */
-    box-shadow: 0px 17px 15px 1px rgba(97, 97, 97, 0.25);
-}
-
-div.search-option:not(:focus-within):hover {
-    background-color: rgba(209, 209, 209, 0.821);
-    border-radius: 100px;
-}
-
-div.search-option h1 {
-    text-align: left;
-}
-
 input.search-option-input {
     border: none;
     background-color: transparent;
@@ -343,108 +335,11 @@ input.search-option-input:focus {
     border: none;
 }
 
-
-.search-option:not(:focus-within) .checkin-checkout-dropdown,
-.search-option:not(:focus-within) .search-by-region-dropdown {
-    display: none;
+div.search-option h1 {
+    text-align: left;
 }
 
-/* Styling dropdown menus */
-.search-option:focus-within .checkin-checkout-dropdown,
-.search-option:focus-within .search-by-region-dropdown {
-    display: grid;
-    grid-template: 1fr 3fr 3fr / 1fr 1fr;
-    padding: 2rem;
-    position: absolute;
-    top: 120%;
-    left: 0;
-    width: 200%;
-    height: 600%;
-    border-radius: 32px;
-    z-index: 5;
-    background-color: white;
-    border: 0.1px solid rgb(182, 182, 182);
-    transition: all 0.2s ease;
-    opacity: 1;
-}
-
-.search-option.check-out-date-search,
-.search-option.check-in-date-search {
-    position: static;
-}
-
-.search-option:focus-within .checkin-checkout-dropdown {
-    display: grid;
-    position: absolute;
-    top: 120%;
-    left: 0;
+input#when-end {
     width: 100%;
-    height: 600%;
-    border-radius: 32px;
-    z-index: 5;
-    background-color: white;
-    border: 0.1px solid rgb(182, 182, 182);
-    transition: all 0.2s ease;
 }
-
-.search-option.who-guests-number-search:focus-within .checkin-checkout-dropdown {
-    display: grid;
-    position: absolute;
-    top: 120%;
-    left: -40%;
-    width: 140%;
-    height: 600%;
-    border-radius: 32px;
-    z-index: 5;
-    background-color: white;
-    border: 0.1px solid rgb(182, 182, 182);
-    transition: all 0.2s ease;
-}
-
-.grid-item-1 {
-    display: flex;
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
-    border: 1px solid black;
-    justify-content: flex-start;
-    align-content: center;
-    flex-wrap: wrap;
-}
-
-img.whole-globe-option {
-    height: 80%;
-    width: 80%;
-    margin: 0px;
-    border-radius: 1rem;
-}
-
-img.whole-globe-option:hover {
-    border: 1.5px solid rgb(86, 86, 179);
-}
-
-.grid-item-2 {
-    grid-row: 2 / 3;
-    grid-column: 1 / 2;
-    border: 1px solid black;
-}
-
-.grid-item-3 {
-    grid-row: 2 / 3;
-    grid-column: 2 / 3;
-    border: 1px solid black;
-}
-
-.grid-item-4 {
-    grid-row: 3 / 4;
-    grid-column: 1 / 2;
-    border: 1px solid black;
-}
-
-.grid-item-5 {
-    grid-row: 3 / 4;
-    grid-column: 2 / 3;
-    border: 1px solid black;
-}
-
-
 </style>
