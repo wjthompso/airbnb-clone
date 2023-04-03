@@ -13,21 +13,15 @@
     </nav>
     <div v-if="showBookingDetails" class="background-grayout-for-booking-details" @click="toggleShowBookingOptions"></div>
     <categories-carousel-container></categories-carousel-container>
-    <div class="results-body">
-        <div class="float-left-column"></div>
-        <div class="float-right-column"></div>
-        <h1 class="this-is-english">Header</h1>
-        <p>This is all in english so no need to translate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero nobis omnis ipsa aliquam ullam veniam ipsam voluptatem delectus repellendus in, nemo sint facere tempore quas, magni doloremque optio exercitationem amet.</p>
-    </div>
 </template>
 
 <script>
-import BookingHeaderOptions from './subcomponents/BookingHeaderOptions.vue'
-import AirbnbLogo from './subcomponents/AirbnbLogo.vue'
-import ProfileNotificationButton from './subcomponents/ProfileNotificationButton.vue';
-import VisitSearchForm from './subcomponents/VisitSearchForm.vue';
-import CategoriesCarouselContainer from './subcomponents/CategoriesCarouselContainer.vue';
-import StaysExperiencesHeader from './subcomponents/StaysExperiencesHeader.vue';
+import BookingHeaderOptions from './subcomponents/LandingPageHeader/BookingHeaderOptions.vue'
+import AirbnbLogo from './subcomponents/LandingPageHeader/AirbnbLogo.vue'
+import ProfileNotificationButton from './subcomponents/LandingPageHeader/ProfileNotificationButton.vue';
+import VisitSearchForm from './subcomponents/LandingPageHeader/VisitSearchForm.vue';
+import CategoriesCarouselContainer from './subcomponents/LandingPageHeader/CategoriesCarouselContainer.vue';
+import StaysExperiencesHeader from './subcomponents/LandingPageHeader/StaysExperiencesHeader.vue';
 
 
 export default {
@@ -87,7 +81,7 @@ nav.header-container {
     border-bottom: 0.05rem solid lightgray;
     background-color: white;
     box-sizing: border-box;
-    position: relative;
+    position: fixed;
     z-index: 3;
 }
 

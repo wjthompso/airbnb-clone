@@ -41,7 +41,7 @@ export default {
 
 <style scoped>
 div.category-filter-bar-container {
-    position: absolute;
+    position: fixed;
     top: 5rem;
     display: flex;
     justify-content: space-between;
@@ -52,6 +52,8 @@ div.category-filter-bar-container {
     width: 100%;
     text-align: left;
     border-bottom: 0.1rem solid lightgray;
+    background-color: white;
+    z-index: 1;
 }
 
 button.open-filters-modal-btn {
