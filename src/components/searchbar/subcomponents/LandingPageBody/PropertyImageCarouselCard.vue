@@ -246,8 +246,12 @@ export default {
     }
 
     .carousel-images img {
-      width: 300px;
-      height: 300px;
+        /* Make the image fit. Don't squish the image. */
+        object-fit: cover;
+        object-position: center center;
+        width: 300px;
+        height: 300px;
+        transform: scale(01);
     }
 
     .carousel-button#nextButton {

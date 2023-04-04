@@ -43,37 +43,6 @@ export default {
         }
     },
     created() {
-        const images = [
-            require('@/assets/malibu_california/malibu_california_1.webp'),
-            require('@/assets/malibu_california/malibu_california_2.webp'),
-            require('@/assets/malibu_california/malibu_california_3.webp'),
-            require('@/assets/malibu_california/malibu_california_4.webp'),
-            require('@/assets/malibu_california/malibu_california_5.webp'),
-            require('@/assets/malibu_california/malibu_california_6.webp'),
-            require('@/assets/malibu_california/malibu_california_7.webp'),
-            require('@/assets/malibu_california/malibu_california_8.webp'),
-            require('@/assets/malibu_california/malibu_california_9.webp'),
-            require('@/assets/malibu_california/malibu_california_10.webp'),
-            require('@/assets/malibu_california/malibu_california_11.webp'),
-            require('@/assets/malibu_california/malibu_california_12.webp'),
-            require('@/assets/malibu_california/malibu_california_13.webp'),
-            require('@/assets/malibu_california/malibu_california_14.webp'),
-            require('@/assets/malibu_california/malibu_california_15.webp'),
-            require('@/assets/malibu_california/malibu_california_16.webp'),
-            require('@/assets/malibu_california/malibu_california_17.webp'),
-            require('@/assets/malibu_california/malibu_california_18.webp'),
-            require('@/assets/malibu_california/malibu_california_19.webp'),
-            require('@/assets/malibu_california/malibu_california_20.webp')
-        ];
-
-        this.imageLocationArray = images.map((image, index) => {
-            return { id: index + 1, imageLocation: image };
-        });
-
-        console.log("imageLocationArray: ");
-        console.log(this.imageLocationArray);
-    },
-    beforeMount() {
         this.imageLocationArray = [];
 
         // Get all of the images in the assets/malibu_california folder and push them to the imageLocationArray
