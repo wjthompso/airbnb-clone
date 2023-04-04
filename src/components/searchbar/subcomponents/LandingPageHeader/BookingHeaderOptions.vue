@@ -1,11 +1,11 @@
 <template>
     <div class="booking-options-parent-container">
         <div class="booking-options-container">
-            <a href="#" class="booking-option">Anywhere</a>
+            <div href="#" class="booking-option" id="1"><span>Anywhere</span></div>
             <div class="booking-option-separator"></div>
-            <a href="#" class="booking-option">Any week</a>
+            <div href="#" class="booking-option booking-option-no-wrap" id="2"><span>Any week</span></div>
             <div class="booking-option-separator"></div>
-            <a href="#" class="booking-option add-guests">Add guests</a>
+            <div href="#" class="booking-option add-guests booking-option-min-width" id="3"><span>Add guests</span></div>
             <div class="svg-container">
                 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><g fill="none"><path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path></g></svg>
             </div>
@@ -44,35 +44,78 @@ div.booking-options-parent-container {
     align-content: center;
     justify-content: center;
     height: 3rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* margin-left: 30rem;
+    margin-right: 30rem; */
     /* height: 100%; */
 }
 
 .booking-options-container {
-  display: inline-flex;
-  margin-left: 30px;
-  vertical-align: middle;
-  margin-left: 1rem;
-  background-color: white;
-  border: 1px solid rgb(203, 203, 203);
-  box-shadow: 1px 1px 2px rgba(77, 77, 77, 0.2);
-  border-radius: 10rem;
-  line-height: 3.5;
-  padding: 0rem;
-  padding-left: 1.5rem;
-  padding-right: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 1;
+    /* flex-wrap: nowrap; */
+    margin-left: 30px;
+    vertical-align: middle;
+    margin-left: 1rem;
+    background-color: white;
+    border: 1px solid rgb(203, 203, 203);
+    box-shadow: 1px 1px 2px rgba(77, 77, 77, 0.2);
+    border-radius: 10rem;
+    line-height: 3.5;
+    padding: 0rem;
+    padding-left: 1.5rem;
+    padding-right: 0.5rem;
+    min-width: 0;
 }
 
-a.booking-option {
-  align-self: center;
-  display: inline-flex;
-  margin-right: 10px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #000000;
-  text-decoration: none;
+div.booking-option {
+    align-self: center;
+    display: inline;
+    /* flex: 1 1 auto; */
+    margin-right: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #000000;
+    text-decoration: none;
+    /* text-overflow: ellipsis; */
+    /* white-space: nowrap; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    /* max-width: 100%; */
+    text-align: inherit;
 }
 
-a.add-guests {
+.booking-option-no-wrap {
+    /* white-space: nowrap; */
+}
+
+.booking-option-min-width {
+    white-space: nowrap;
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+.booking-option-no-wrap span {
+    white-space: nowrap;
+}
+
+div#1 {
+    z-index: 1;
+}
+
+div#2 {
+    z-index: 2;
+}
+
+div#3 {
+    z-index: 3;
+}
+
+div.add-guests {
     color: rgb(136, 136, 136);
     font-weight: 400;
 }
@@ -92,6 +135,11 @@ a.add-guests {
   font-size: 14px;
   font-weight: 600;
   color: #484848;
+}
+
+.invisible-one {
+    margin: 0;
+    opacity: 0;
 }
 
 
