@@ -16,18 +16,7 @@
             <div class="nav-indicator-carousel-window">
                 <div class="nav-indicator-carousel-track">
                     <!-- Number of nav-indicator-carousel-items must match number of carousel-images -->
-                    <!-- <div v-for="image in imageLocationArray" class="nav-indicator-carousel-item" :id="image.id" :key="image.id"></div> -->
-                    <div class="nav-indicator-carousel-item" id="1"> </div>
-                    <div class="nav-indicator-carousel-item" id="2"> </div>
-                    <div class="nav-indicator-carousel-item" id="3"> </div>
-                    <div class="nav-indicator-carousel-item" id="4"> </div>
-                    <div class="nav-indicator-carousel-item" id="5"> </div>
-                    <div class="nav-indicator-carousel-item" id="6"> </div>
-                    <div class="nav-indicator-carousel-item" id="7"> </div>
-                    <div class="nav-indicator-carousel-item" id="8"> </div>
-                    <div class="nav-indicator-carousel-item" id="9"> </div>
-                    <div class="nav-indicator-carousel-item" id="10"> </div>
-                    <div class="nav-indicator-carousel-item" id="11"> </div>
+                    <div v-for="image in imageLocationArray" class="nav-indicator-carousel-item" :id="image.id" :key="image.id"></div>
                 </div>
             </div>
 
@@ -59,7 +48,7 @@ export default {
             currentImageIndex: 0,
         }
     },
-    mounted() {
+    beforeMount() {
             const carouselImagesSets = document.querySelectorAll('.image-carousel-container');
             for (let i = 0; i < carouselImagesSets.length; i++) {
                 const imageCount = carouselImagesSets[i].children.length;
@@ -191,6 +180,7 @@ export default {
 
     .image-card {
         display: inline-block;
+        position: relative;
         margin-left: 1rem;
         margin-top: 1rem;
     }

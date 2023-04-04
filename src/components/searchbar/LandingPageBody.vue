@@ -1,42 +1,9 @@
 <template>
     <div class="test-body">
 
-        <property-image-carousel-card v-for="idx in 19" :key="idx"></property-image-carousel-card>
+        <property-image-carousel-card v-for="idx in 19" :key="idx" :image-location-array="imageLocationArray"></property-image-carousel-card>
         <!-- <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
         <property-image-carousel-card></property-image-carousel-card> -->
-        <div class="test-block">1</div>
-        <div class="test-block">2</div>
-        <div class="test-block">3</div>
-        <div class="test-block">4</div>
-        <div class="test-block">5</div>
-        <div class="test-block">6</div>
-        <div class="test-block">7</div>
-        <div class="test-block">8</div>
-        <div class="test-block">9</div>
-        <div class="test-block">10</div>
-        <div class="test-block">11</div>
-        <div class="test-block">12</div>
-        <div class="test-block">13</div>
-        <div class="test-block">14</div>
-        <div class="test-block">15</div>
-        <div class="test-block">16</div>
     </div>
 </template>
 
@@ -47,6 +14,82 @@ export default {
     name: "LandingPageBody",
     components: {
         PropertyImageCarouselCard
+    },
+    data() {
+        return {
+            imageLocationArray: [
+                {
+                    id: 1,
+                    // Placeholder image
+                    imageLocation: require("@/assets/malibu_california/malibu_california_1.webp")
+                },
+                {
+                    id: 2,
+                    imageLocation: require("@/assets/malibu_california/malibu_california_1.webp")
+                },
+                {
+                    id: 3,
+                    imageLocation: require("@/assets/malibu_california/malibu_california_1.webp")
+                },
+                {
+                    id: 4,
+                    imageLocation: require("@/assets/malibu_california/malibu_california_1.webp")
+                },
+                {
+                    id: 5,
+                    imageLocation: require("@/assets/malibu_california/malibu_california_1.webp")
+                },
+            ]
+        }
+    },
+    created() {
+        const images = [
+            require('@/assets/malibu_california/malibu_california_1.webp'),
+            require('@/assets/malibu_california/malibu_california_2.webp'),
+            require('@/assets/malibu_california/malibu_california_3.webp'),
+            require('@/assets/malibu_california/malibu_california_4.webp'),
+            require('@/assets/malibu_california/malibu_california_5.webp'),
+            require('@/assets/malibu_california/malibu_california_6.webp'),
+            require('@/assets/malibu_california/malibu_california_7.webp'),
+            require('@/assets/malibu_california/malibu_california_8.webp'),
+            require('@/assets/malibu_california/malibu_california_9.webp'),
+            require('@/assets/malibu_california/malibu_california_10.webp'),
+            require('@/assets/malibu_california/malibu_california_11.webp'),
+            require('@/assets/malibu_california/malibu_california_12.webp'),
+            require('@/assets/malibu_california/malibu_california_13.webp'),
+            require('@/assets/malibu_california/malibu_california_14.webp'),
+            require('@/assets/malibu_california/malibu_california_15.webp'),
+            require('@/assets/malibu_california/malibu_california_16.webp'),
+            require('@/assets/malibu_california/malibu_california_17.webp'),
+            require('@/assets/malibu_california/malibu_california_18.webp'),
+            require('@/assets/malibu_california/malibu_california_19.webp'),
+            require('@/assets/malibu_california/malibu_california_20.webp')
+        ];
+
+        this.imageLocationArray = images.map((image, index) => {
+            return { id: index + 1, imageLocation: image };
+        });
+
+        console.log("imageLocationArray: ");
+        console.log(this.imageLocationArray);
+    },
+    beforeMount() {
+        this.imageLocationArray = [];
+
+        // Get all of the images in the assets/malibu_california folder and push them to the imageLocationArray
+        const imageContext = require.context('@/assets/malibu_california', true, /\.(png|jpe?g|svg|webp)$/);
+        let i = 0;
+        imageContext.keys().forEach((key) => {
+            const image = imageContext(key);
+            this.imageLocationArray.push({
+            id: i,
+            imageLocation: image
+            });
+            i++;
+        });
+        console.log("imageLocationArray: ");
+        console.log(this.imageLocationArray);
+
     },
 }
 
