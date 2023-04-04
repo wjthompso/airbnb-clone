@@ -9,23 +9,14 @@
                 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;"><g fill="none"><path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path></g></svg>
             </button>
             <div class="carousel-images">
-            <img src="https://via.placeholder.com/300x300?text=Image+1" alt="Image 1">
-            <img src="https://via.placeholder.com/300x300?text=Image+2" alt="Image 2">
-            <img src="https://via.placeholder.com/300x300?text=Image+3" alt="Image 3">
-            <img src="https://via.placeholder.com/300x300?text=Image+4" alt="Image 4">
-            <img src="https://via.placeholder.com/300x300?text=Image+5" alt="Image 5">
-            <img src="https://via.placeholder.com/300x300?text=Image+6" alt="Image 6">
-            <img src="https://via.placeholder.com/300x300?text=Image+7" alt="Image 7">
-            <img src="https://via.placeholder.com/300x300?text=Image+8" alt="Image 8">
-            <img src="https://via.placeholder.com/300x300?text=Image+9" alt="Image 9">
-            <img src="https://via.placeholder.com/300x300?text=Image+10" alt="Image 10">
-            <img src="https://via.placeholder.com/300x300?text=Image+11" alt="Image 11">
+                <img v-for="image in imageLocationArray" :src="image.imageLocation" :alt="image.id" :key="image.id">
             </div>
             <button class="carousel-button" id="nextButton" @click="next"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;"><g fill="none"><path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path></g></svg></button>
 
             <div class="nav-indicator-carousel-window">
                 <div class="nav-indicator-carousel-track">
                     <!-- Number of nav-indicator-carousel-items must match number of carousel-images -->
+                    <!-- <div v-for="image in imageLocationArray" class="nav-indicator-carousel-item" :id="image.id" :key="image.id"></div> -->
                     <div class="nav-indicator-carousel-item" id="1"> </div>
                     <div class="nav-indicator-carousel-item" id="2"> </div>
                     <div class="nav-indicator-carousel-item" id="3"> </div>
@@ -57,30 +48,39 @@
 <script>
 export default {
     name: 'PropertyImageCarouselCard',
+    props: {
+        imageLocationArray: {
+            type: Array,
+            required: true,
+        },
+    },
     data() {
         return {
             currentImageIndex: 0,
         }
     },
     mounted() {
-            const carouselImages = document.querySelector('.carousel-images');
-            const imageCount = carouselImages.children.length;
-            console.log(imageCount);
+            const carouselImagesSets = document.querySelectorAll('.image-carousel-container');
+            for (let i = 0; i < carouselImagesSets.length; i++) {
+                const imageCount = carouselImagesSets[i].children.length;
+                console.log(imageCount);
 
-            // Set the width of the carousel track to number of * width of the .nav-indicator-carousel-item
-            const navCarouselTrack = document.querySelector('.nav-indicator-carousel-track');
-            const navCarouselItems = document.querySelectorAll('.nav-indicator-carousel-item');
-            const navCarouselItemCount = navCarouselTrack.children.length;
-            // Get the width of the carousel item, including margins
-            const carouselItemWidth = this.getFullWidth(navCarouselItems[1]);
+                // Set the width of the carousel track to number of * width of the .nav-indicator-carousel-item
+                const navCarouselTrack = carouselImagesSets[i].querySelector('.nav-indicator-carousel-track');
+                const navCarouselItems = carouselImagesSets[i].querySelectorAll('.nav-indicator-carousel-item');
+                const navCarouselItemCount = navCarouselTrack.children.length;
 
-            // Set the width of the carousel track to the number of items times the width of a carousel item, including margins
-            navCarouselTrack.style.width = `${navCarouselItemCount * carouselItemWidth}px`;
+                // Get the width of the carousel item, including margins
+                const carouselItemWidth = this.getFullWidth(navCarouselItems[1]);
 
-            // Set the initial nav indicator to active
-            navCarouselItems[0].classList.add('active');
-            navCarouselItems[3].classList.add("near-edge");
-            navCarouselItems[4].classList.add("edge");
+                // Set the width of the carousel track to the number of items times the width of a carousel item, including margins
+                navCarouselTrack.style.width = `${navCarouselItemCount * carouselItemWidth}px`;
+
+                // Set the initial nav indicator to active
+                navCarouselItems[0].classList.add('active');
+                navCarouselItems[3].classList.add("near-edge");
+                navCarouselItems[4].classList.add("edge");
+            }
     },
     methods: {
         getFullWidth(element) {
@@ -93,25 +93,67 @@ export default {
             const marginRight = parseFloat(computedStyle.marginRight);
             return width + marginLeft + marginRight;
         },
-        previous() {
-                const carouselImages = document.querySelector('.carousel-images');
-                const imageCount = carouselImages.children.length;
-                console.log(imageCount);
+        next(e) {
+            let imageCarouselContainer;
+            imageCarouselContainer = e.target.closest('.image-carousel-container');
+            const carouselImages = imageCarouselContainer.querySelector('.carousel-images');
+            let imageCount;
+            imageCount = carouselImages.children.length;
+
+            // Set the width of the carousel track to number of * width of the .nav-indicator-carousel-item
+            const navCarouselTrack = imageCarouselContainer.querySelector('.nav-indicator-carousel-track');
+            const navCarouselItems = imageCarouselContainer.querySelectorAll('.nav-indicator-carousel-item');
+            const carouselItemWidth = this.getFullWidth(navCarouselItems[1]);
+
+            // This is the logic for the image carousel
+            if (this.currentImageIndex === imageCount-1) {
+                return;
+            }
+            this.currentImageIndex++;
+            carouselImages.style.transition = 'transform 0.4s ease-in-out';
+            carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
+
+            // This is the logic for the nav indicator carousel
+            navCarouselItems[this.currentImageIndex-1].classList.remove('active');
+            navCarouselItems[this.currentImageIndex].classList.remove("edge", "near-edge");
+            navCarouselItems[this.currentImageIndex].classList.add('active');
+
+            if (this.currentImageIndex > 2 && this.currentImageIndex < imageCount -3) {
+                navCarouselTrack.style.transform = `translateX(-${(this.currentImageIndex - 2) * carouselItemWidth}px)`;
+                navCarouselItems[this.currentImageIndex+2].classList.add("edge");
+                navCarouselItems[this.currentImageIndex+1].classList.remove("edge", "near-edge");
+                navCarouselItems[this.currentImageIndex-1].classList.remove("edge", "near-edge");
+                navCarouselItems[this.currentImageIndex-2].classList.add("edge");
+            } else if (this.currentImageIndex == imageCount - 3) {
+                navCarouselTrack.style.transform = `translateX(-${(this.currentImageIndex - 2) * carouselItemWidth}px)`;
+                navCarouselItems[this.currentImageIndex+2].classList.remove("edge", "near-edge");
+                navCarouselItems[this.currentImageIndex+1].classList.remove("edge", "near-edge");
+                navCarouselItems[this.currentImageIndex-1].classList.add("near-edge");
+                navCarouselItems[this.currentImageIndex-2].classList.add("edge");
+            }
+
+        },
+        previous(e) {
+                let imageCarouselContainer;
+                imageCarouselContainer = e.target.closest('.image-carousel-container');
+                    
+                const carouselImages = imageCarouselContainer.querySelector('.carousel-images');
+                let imageCount;
+                imageCount = carouselImages.children.length;
+                // const imageCount = carouselImages.children.length;
 
                 // Set the width of the carousel track to number of * width of the .nav-indicator-carousel-item
-                const navCarouselTrack = document.querySelector('.nav-indicator-carousel-track');
-                const navCarouselItems = document.querySelectorAll('.nav-indicator-carousel-item');
-                const navCarouselItemCount = navCarouselTrack.children.length;
+                const navCarouselTrack = imageCarouselContainer.querySelector('.nav-indicator-carousel-track');
+                const navCarouselItems = imageCarouselContainer.querySelectorAll('.nav-indicator-carousel-item');
+
                 // Get the width of the carousel item, including margins
                 const carouselItemWidth = this.getFullWidth(navCarouselItems[1]);
-
-                // Set the width of the carousel track to the number of items times the width of a carousel item, including margins
-                navCarouselTrack.style.width = `${navCarouselItemCount * carouselItemWidth}px`;
 
                 // This is the logic for the image carousel
                 if (this.currentImageIndex === 0) {
                     return;
                 }
+
                 this.currentImageIndex--;
                 carouselImages.style.transition = 'transform 0.4s ease-in-out';
                 carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
@@ -134,54 +176,7 @@ export default {
                     navCarouselItems[this.currentImageIndex+1].classList.add("near-edge");
                     navCarouselItems[this.currentImageIndex+2].classList.add("edge");
                 }
-        },
-        next() {
-            const carouselImages = document.querySelector('.carousel-images');
-                const imageCount = carouselImages.children.length;
-                console.log(imageCount);
-
-                // Set the width of the carousel track to number of * width of the .nav-indicator-carousel-item
-                const navCarouselTrack = document.querySelector('.nav-indicator-carousel-track');
-                const navCarouselItems = document.querySelectorAll('.nav-indicator-carousel-item');
-                const navCarouselItemCount = navCarouselTrack.children.length;
-                // Get the width of the carousel item, including margins
-                const carouselItemWidth = this.getFullWidth(navCarouselItems[1]);
-
-                // Set the width of the carousel track to the number of items times the width of a carousel item, including margins
-                navCarouselTrack.style.width = `${navCarouselItemCount * carouselItemWidth}px`;
-
-                        // This is the logic for the image carousel
-                if (this.currentImageIndex === imageCount-1) {
-                    return;
-                }
-                this.currentImageIndex++;
-                carouselImages.style.transition = 'transform 0.4s ease-in-out';
-                carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
-
-                // This is the logic for the nav indicator carousel
-                navCarouselItems[this.currentImageIndex-1].classList.remove('active');
-                navCarouselItems[this.currentImageIndex].classList.remove("edge", "near-edge");
-                navCarouselItems[this.currentImageIndex].classList.add('active');
-
-                if (this.currentImageIndex > 2 && this.currentImageIndex < imageCount -3) {
-                    navCarouselTrack.style.transform = `translateX(-${(this.currentImageIndex - 2) * carouselItemWidth}px)`;
-                    navCarouselItems[this.currentImageIndex+2].classList.add("edge");
-                    navCarouselItems[this.currentImageIndex+1].classList.remove("edge", "near-edge");
-                    navCarouselItems[this.currentImageIndex-1].classList.remove("edge", "near-edge");
-                    navCarouselItems[this.currentImageIndex-2].classList.add("edge");
-                } else if (this.currentImageIndex == imageCount - 3) {
-                    navCarouselTrack.style.transform = `translateX(-${(this.currentImageIndex - 2) * carouselItemWidth}px)`;
-                    navCarouselItems[this.currentImageIndex+2].classList.remove("edge", "near-edge");
-                    navCarouselItems[this.currentImageIndex+1].classList.remove("edge", "near-edge");
-                    navCarouselItems[this.currentImageIndex-1].classList.add("near-edge");
-                    navCarouselItems[this.currentImageIndex-2].classList.add("edge");
-                }
-
         }
-    },
-
-    watch: {
-
     }
 }
 </script>
@@ -354,6 +349,7 @@ export default {
     /* Classes for the little dots at the bottom of the image carousel */
 
     .nav-indicator-carousel-window {
+        display: block;
         position: absolute;
         background-color: transparent;
         bottom: 10px;
@@ -367,7 +363,7 @@ export default {
     .nav-indicator-carousel-track {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: center;
         height: 100%;
         transition: transform 0.2s ease-in-out;

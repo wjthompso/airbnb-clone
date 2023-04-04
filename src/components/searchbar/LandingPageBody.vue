@@ -1,5 +1,8 @@
 <template>
     <div class="test-body">
+
+        <property-image-carousel-card v-for="idx in 19" :key="idx"></property-image-carousel-card>
+        <!-- <property-image-carousel-card></property-image-carousel-card>
         <property-image-carousel-card></property-image-carousel-card>
         <property-image-carousel-card></property-image-carousel-card>
         <property-image-carousel-card></property-image-carousel-card>
@@ -17,9 +20,7 @@
         <property-image-carousel-card></property-image-carousel-card>
         <property-image-carousel-card></property-image-carousel-card>
         <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
-        <property-image-carousel-card></property-image-carousel-card>
+        <property-image-carousel-card></property-image-carousel-card> -->
         <div class="test-block">1</div>
         <div class="test-block">2</div>
         <div class="test-block">3</div>

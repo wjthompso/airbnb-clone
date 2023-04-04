@@ -51,7 +51,7 @@ div.category-filter-bar-container {
     height: 8rem;
     width: 100%;
     text-align: left;
-    border-bottom: 0.1rem solid lightgray;
+    /* border-bottom: 0.1rem solid lightgray; */
     background-color: white;
     z-index: 1;
 }
