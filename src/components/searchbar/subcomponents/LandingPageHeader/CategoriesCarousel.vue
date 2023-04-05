@@ -286,6 +286,10 @@ export default {
     overflow: hidden;
 }
 
+::-webkit-scrollbar {
+        display: none;
+    }
+
 .carousel-track {
     display: flex;
     flex-direction: row;
