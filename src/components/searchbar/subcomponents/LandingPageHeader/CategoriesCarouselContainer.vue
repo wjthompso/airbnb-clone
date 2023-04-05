@@ -45,7 +45,8 @@ div.category-filter-bar-container {
     top: 5rem;
     display: flex;
     justify-content: space-between;
-    padding: 0rem 6rem;
+    padding: 0rem var(--page-margin);
+    padding-left: calc(var(--page-margin) - 1rem);
     padding-top: 0rem;
     align-items: center;
     height: 8rem;

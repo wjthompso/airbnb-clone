@@ -27,6 +27,7 @@ export default {
   --FS-M: 2rem;
   --FS-L: 3rem;
   --FS-XL: 4rem;
+  --page-margin: 3rem;
 }
 
 #app {

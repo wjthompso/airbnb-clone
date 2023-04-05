@@ -46,14 +46,11 @@ div.booking-options-parent-container {
     height: 3rem;
     box-sizing: border-box;
     overflow: hidden;
-    /* margin-left: 30rem;
-    margin-right: 30rem; */
-    /* height: 100%; */
 }
 
 .booking-options-container {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     flex-shrink: 1;
     /* flex-wrap: nowrap; */
@@ -72,20 +69,15 @@ div.booking-options-parent-container {
 }
 
 div.booking-option {
-    align-self: center;
     display: inline;
-    /* flex: 1 1 auto; */
     margin-right: 10px;
     font-size: 0.9rem;
     font-weight: 500;
     color: #000000;
     text-decoration: none;
-    /* text-overflow: ellipsis; */
-    /* white-space: nowrap; */
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
-    /* max-width: 100%; */
     text-align: inherit;
 }
 
@@ -101,18 +93,6 @@ div.booking-option {
 
 .booking-option-no-wrap span {
     white-space: nowrap;
-}
-
-div#1 {
-    z-index: 1;
-}
-
-div#2 {
-    z-index: 2;
-}
-
-div#3 {
-    z-index: 3;
 }
 
 div.add-guests {

@@ -70,7 +70,7 @@ export default {
 nav.header-container {
     display: flex;
     justify-content: space-between;
-    padding: 0rem 6rem;
+    padding: 0rem var(--page-margin);
     /* padding-top: 2rem; */
     align-items: center;
     height: auto;

@@ -320,6 +320,10 @@ button.radio-icon {
     cursor: pointer;
 }
 
+/* button.radio-icon:first-child {
+    margin-left: 0rem;
+} */
+
 button.radio-icon p {
     margin: 0.5rem;
     font-size: 0.9rem;
