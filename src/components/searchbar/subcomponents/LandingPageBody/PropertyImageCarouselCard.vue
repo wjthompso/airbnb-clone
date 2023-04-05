@@ -1,5 +1,5 @@
 <template>
-      <div class="image-card">
+      <div class="image-card image-card-width">
         <div class="image-carousel-container">
             <button class="listing-card-save-button" type="button">
                 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 30px; width: 30px; overflow: visible;">
@@ -176,18 +176,64 @@ export default {
             font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
         }
 
+    /* Media queries for making the cards responsive */
+    @media only screen and (max-width: 645px) {
+        .image-card-width {
+            width: 100%;
+        }
+    }
+
+    @media only screen and (min-width: 646px) and (max-width: 872px) {
+        .image-card-width {
+            width: 47%;
+        }
+    }
+
+    @media only screen and (min-width: 873px) and (max-width: 1132px) {
+        .image-card-width {
+            width: 30.7%;
+        }
+    }
+
+    @media only screen and (min-width: 1133px) and (max-width: 1340px) {
+        .image-card-width {
+            width: 22.9%;
+        }
+    }
+
+    @media only screen and (min-width: 1341px) and (max-width: 1698px) {
+        .image-card-width {
+            width: 18.7%;
+        }
+    }
+
+    @media only screen and (min-width: 1699px) and (max-width: 1899px) {
+        .image-card-width {
+            width: 15.5%;
+        }
+    }
+
+    @media only screen and (min-width: 1900px) {
+        .image-card-width {
+            width: 15.7%;
+        }
+    }
+
+
     /* Classes for the listing card */
 
     .image-card {
-        display: inline-block;
+        display: flex;
+        flex-wrap: wrap;
         position: relative;
         margin-left: 1rem;
         margin-top: 1rem;
+        box-sizing: border-box;
     }
 
     .property-information {
         position: relative;
-        width: 300px;
+        width: 100%;
     }
 
     .property-information h3 {
@@ -232,8 +278,6 @@ export default {
     /* Classes for the image carousel and its control buttons */
     .image-carousel-container {
       position: relative;
-      width: 300px;
-      height: 300px;
       overflow: hidden;
       border-radius: 15px;
     }
@@ -249,8 +293,9 @@ export default {
         /* Make the image fit. Don't squish the image. */
         object-fit: cover;
         object-position: center center;
-        width: 300px;
-        height: 300px;
+        width: 100%;
+        aspect-ratio: 1/1;
+        /* height: auto; */
         transform: scale(01);
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="test-body">
+    <div class="body-with-cards">
 
         <property-image-carousel-card v-for="idx in 19" :key="idx" :image-location-array="imageLocationArray"></property-image-carousel-card>
         <!-- <property-image-carousel-card></property-image-carousel-card>
@@ -65,9 +65,12 @@ export default {
 </script>
 
 <style>
-div.test-body {
+div.body-with-cards {
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
     position: absolute;
+    padding: 0 var(--page-margin);
     top: 12.5rem;
 }
 

@@ -18,7 +18,8 @@
         /* margin-left: 0.5rem; */
         display: flex;
         align-self: center;
-        transform: scale(1.1);
+        transform: scale(1.08);
+        margin-left: 0.35rem;
     }
     svg.airbnb-logo-desktop {
         display: none;
