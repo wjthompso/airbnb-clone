@@ -54,7 +54,7 @@ div.category-filter-bar-container {
     text-align: left;
     /* border-bottom: 0.1rem solid lightgray; */
     background-color: white;
-    z-index: 1;
+    z-index: 2;
 }
 
 button.open-filters-modal-btn {

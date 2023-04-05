@@ -1,12 +1,44 @@
 <template>
-    <button>
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;"><g fill="none" fill-rule="nonzero"><path d="m2 16h28"></path><path d="m2 24h28"></path><path d="m2 8h28"></path></g></svg>
+    <button class="profile-notification-button">
+        <svg class="hide-burger-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;"><g fill="none" fill-rule="nonzero"><path d="m2 16h28"></path><path d="m2 24h28"></path><path d="m2 8h28"></path></g></svg>
         <img class="fnky2vc dir dir-ltr" src="https://a0.muscache.com/defaults/user_pic-50x50.png?v=3" alt="">
-        <div class="notification-badge">1</div>
+        <div class="notification-badge minimize-class">1</div>
     </button>
 </template>
 
 <style scoped>
+
+@media only screen and (max-width: 669px) {
+
+    button.profile-notification-button {
+        display: none;
+    }
+    .hide-burger-icon {
+        display: none;
+    }
+
+    .fnky2vc.dir.dir-ltr {
+        display: none;
+    }
+
+    .notification-badge.minimize-class {
+        display: none;
+    }
+}
+
+/* @media only screen and (max-width: 1224px) {
+    .hide-burger-icon {
+        display: none;
+    }
+
+    .fnky2vc.dir.dir-ltr {
+        margin-left: 0rem;
+    }
+
+    .notification-badge.minimize-class {
+
+    }
+} */
 
 button {
     display: flex;
