@@ -1,7 +1,7 @@
 <template>
 
         <div class="wrapper-container-for-box-shadow">
-            <div class="booking-options-parent-container">
+            <div class="booking-options-parent-container" @clickin="fireExpandHeaderEvent">
                 <div class="booking-options-container">
                     <div href="#" class="booking-option" id="1"><span>Anywhere</span></div>
                     <div class="booking-option-separator"></div>
@@ -38,21 +38,26 @@
                     </svg>
                 </div>
             </div>
-        <filters-button v-if="mobileView"></filters-button>
+        <filters-button v-if="mobileView" @click="toggleFilterModal"></filters-button>
+        <filters-modal v-if="filterModal" @close-modal="toggleFilterModal"></filters-modal>
         </div>
 </template>
 
 <script>
 import FiltersButton from '@/components/ui/FiltersButton.vue'
+import FiltersModal from '@/components/ui/FiltersModal.vue'
 
 export default {
     name: 'BookingHeaderOptions',
+    emits: ['expand-header'],
     components: {
-        FiltersButton
+        FiltersButton,
+        FiltersModal
     },
     data() {
         return {
             mobileView: false,
+            filterModal: true,
             bookingOptions: [
                 {
                     name: 'Anywhere',
@@ -89,6 +94,12 @@ export default {
             } else {
                 this.mobileView = false
             }
+        },
+        toggleFilterModal() {
+            this.filterModal = !this.filterModal
+        },
+        fireExpandHeaderEvent() {
+            this.$emit('expand-header')
         }
     },
     beforeUnmount() {

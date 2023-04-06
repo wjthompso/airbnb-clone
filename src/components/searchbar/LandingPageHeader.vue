@@ -3,7 +3,7 @@
         <!-- <img :src="icon" alt="icon"> -->
         <div class="unexpanded-header">
             <airbnb-logo></airbnb-logo>
-            <booking-header-options v-if="!showBookingDetails" @click="toggleShowBookingOptions"></booking-header-options>
+            <booking-header-options v-if="!showBookingDetails" @expand-header="toggleShowBookingOptions"></booking-header-options>
             <stays-experiences-header v-else></stays-experiences-header>
             <profile-notification-button></profile-notification-button>
         </div>
