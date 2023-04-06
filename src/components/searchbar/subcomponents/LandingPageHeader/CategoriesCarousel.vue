@@ -212,7 +212,9 @@ export default {
 
             const carouselTrack = document.querySelector('.carousel-track');
             carouselTrack.classList.add('temporarily-remove-transition');
-            carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
+            // carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
+            // Scroll instead of using transform
+            carouselTrack.scrollLeft = this.iconsToLeft*this.carouselAverageItemWidth;
             setInterval(() => {
                 carouselTrack.classList.remove('temporarily-remove-transition');
             }, 100);
@@ -239,7 +241,10 @@ export default {
                 previousButton.classList.remove('disappear');
             }
 
-            carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
+            // carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
+            // Scroll instead of using transform
+            carouselTrack.scrollRight += 30;
+            console.log("scrollRight: ", 40, scroll);
             this.oldMaxWindowWidth = window.innerWidth;
         },
         slideLeft() {
@@ -267,7 +272,10 @@ export default {
 
             console.log("iconsToLeft: " + this.iconsToLeft);
 
-            carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
+            // carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
+            // Scroll instead of using transform
+            carouselTrack.scrollLeft = 40;
+            console.log("scrollLeft: ", 40);
         }
     }
 }
@@ -303,6 +311,11 @@ export default {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     transition: transform 0.3s ease-in-out;
+    overflow: scroll;
+    /* Make the scroll bar invisible */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* Make the scroll bar invisible on Google Chrome */
 }
 
 div.carousel-track.temporarily-remove-transition {
