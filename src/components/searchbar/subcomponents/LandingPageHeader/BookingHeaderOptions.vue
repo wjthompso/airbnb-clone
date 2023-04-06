@@ -1,16 +1,19 @@
 <template>
-    <div class="booking-options-parent-container">
-        <div class="booking-options-container">
-            <div href="#" class="booking-option" id="1"><span>Anywhere</span></div>
-            <div class="booking-option-separator"></div>
-            <div href="#" class="booking-option booking-option-no-wrap" id="2"><span>Any week</span></div>
-            <div class="booking-option-separator"></div>
-            <div href="#" class="booking-option add-guests booking-option-min-width" id="3"><span>Add guests</span></div>
-            <div class="svg-container">
-                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><g fill="none"><path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path></g></svg>
+
+        <div class="wrapper-container-for-box-shadow">
+            <div class="booking-options-parent-container">
+                <div class="booking-options-container">
+                    <div href="#" class="booking-option" id="1"><span>Anywhere</span></div>
+                    <div class="booking-option-separator"></div>
+                    <div href="#" class="booking-option booking-option-no-wrap" id="2"><span>Any week</span></div>
+                    <div class="booking-option-separator"></div>
+                    <div href="#" class="booking-option add-guests booking-option-min-width" id="3"><span>Add guests</span></div>
+                    <div class="svg-container">
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><g fill="none"><path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path></g></svg>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
@@ -39,36 +42,69 @@ export default {
 
 <style scoped>
 
-div.booking-options-parent-container {
+div.wrapper-container-for-box-shadow {
+    /* grid-column: 2; */
+    position: relative;
     display: flex;
+    flex-shrink: 1;
     align-content: center;
     justify-content: center;
     height: 3rem;
     box-sizing: border-box;
     overflow: hidden;
+    z-index: 1;
+    min-width: 0;
+    margin-left: 1.5rem;
+    border: 1px solid rgb(203, 203, 203);
+    box-shadow: 1px 2px 4px rgba(77, 77, 77, 0.2);
+    border-radius: 10rem; 
+    /* width: 100%; */
+}
+
+div.booking-options-parent-container {
+    /* grid-column: 2; */
+    position: relative;
+    display: flex;
+    flex-shrink: 1;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* width: 100%; */
 }
 
 .booking-options-container {
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     align-items: center;
-    flex-shrink: 1;
+    /* flex-shrink: 1; */
+    height: 100%;
     /* flex-wrap: nowrap; */
     margin-left: 30px;
     vertical-align: middle;
     margin-left: 1rem;
     background-color: white;
-    border: 1px solid rgb(203, 203, 203);
-    box-shadow: 1px 1px 2px rgba(77, 77, 77, 0.2);
+    /* border: 1px solid rgb(203, 203, 203); */
+    /* box-shadow: 1px 1px 2px rgba(77, 77, 77, 0.2); */
     border-radius: 10rem;
     line-height: 3.5;
     padding: 0rem;
-    padding-left: 1.5rem;
+    padding-left: 0.2rem;
     padding-right: 0.5rem;
     min-width: 0;
 }
 
+div.text-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
 div.booking-option {
+    align-self: center;
     display: inline;
     margin-right: 10px;
     font-size: 0.9rem;
@@ -94,6 +130,7 @@ div.booking-option {
 .booking-option-no-wrap span {
     white-space: nowrap;
 }
+
 
 div.add-guests {
     color: rgb(136, 136, 136);
@@ -126,6 +163,7 @@ div.add-guests {
 div.svg-container {
   display: flex;
   align-self: center;
+  justify-self: center;
   align-items: center;
   justify-content: center;
   background-color: #ff385c;

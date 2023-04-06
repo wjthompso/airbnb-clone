@@ -12,7 +12,7 @@
 
 /* Do a media query to check if the screen width is smaller than 743px */
 
-@media only screen and (max-width: 669px) {
+/* @media only screen and (max-width: 669px) {
     svg.airbnb-logo-mobile {
         display: none;
     }
@@ -24,7 +24,6 @@
 
 @media only screen and (min-width: 670px) and (max-width: 1224px) {
     svg.airbnb-logo-mobile {
-        /* margin-left: 0.5rem; */
         display: flex;
         align-self: center;
         transform: scale(1.08);
@@ -33,7 +32,7 @@
     svg.airbnb-logo-desktop {
         display: none;
     }
-}
+} */
 
 /* Do a media query to check if the screen width is larger than 743px */
 @media only screen and (min-width: 1225px) {
