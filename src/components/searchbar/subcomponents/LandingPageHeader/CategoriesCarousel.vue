@@ -181,6 +181,7 @@ export default {
 
         console.log(this.carouselAverageItemWidth);
         carouselTrack.style.width = (this.carouselAverageItemWidth * carouselItems.length) + 'px';
+        console.log("carouselTrack.style.width: " + carouselTrack.style.width);
 
         // Get current window width
         this.oldWindowWidth = window.innerWidth;
@@ -214,7 +215,12 @@ export default {
             carouselTrack.classList.add('temporarily-remove-transition');
             // carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
             // Scroll instead of using transform
-            carouselTrack.scrollLeft = this.iconsToLeft*this.carouselAverageItemWidth;
+            carouselTrack.scrollBy(
+                {
+                    left: -changeInWindowWidth,
+                    behavior: 'smooth'
+                }
+            )
             setInterval(() => {
                 carouselTrack.classList.remove('temporarily-remove-transition');
             }, 100);
@@ -222,11 +228,18 @@ export default {
         slideRight() {
             const carouselTrack = document.querySelector('.carousel-track');
             const carouselWindow = document.querySelector('.carousel-window');
-            const carouselTrackWidth = carouselTrack.getBoundingClientRect().width;
+            const carouselTrackWidth = parseInt(carouselTrack.style.width);
             const carouselWindowWidth = carouselWindow.getBoundingClientRect().width;
+
+            console.log("Carousel track width", carouselTrackWidth);
+            console.log("Carousel window width", carouselWindowWidth);
+            console.log("carouselAverageItemWidth", this.carouselAverageItemWidth);
 
             let halfWindowWidth = Math.floor(carouselWindowWidth/(2*this.carouselAverageItemWidth));
             let remainingWidthInIconUnits = (carouselTrackWidth - this.iconsToLeft*this.carouselAverageItemWidth - carouselWindowWidth) / this.carouselAverageItemWidth;
+
+            console.log("Remaining width in icon units", remainingWidthInIconUnits);
+            console.log("Half window width", halfWindowWidth);
 
             const nextButton = document.querySelector('.next-button-fade');
             const previousButton = document.querySelector('.previous-button-fade');
@@ -242,9 +255,14 @@ export default {
             }
 
             // carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
-            // Scroll instead of using transform
-            carouselTrack.scrollRight += 30;
-            console.log("scrollRight: ", 40, scroll);
+            console.log("Check this out", Math.min(halfWindowWidth, remainingWidthInIconUnits));
+            carouselTrack.scrollBy(
+                {
+                    top: 0,
+                    left: Math.min(halfWindowWidth, remainingWidthInIconUnits)*this.carouselAverageItemWidth,
+                    behavior: 'smooth'
+                }
+            )
             this.oldMaxWindowWidth = window.innerWidth;
         },
         slideLeft() {
@@ -253,8 +271,6 @@ export default {
             const carouselWindowWidth = carouselWindow.getBoundingClientRect().width;
 
             let halfWindowWidth = Math.floor(carouselWindowWidth/(2*this.carouselAverageItemWidth));
-
-            console.log("halfWindowWidth: " + halfWindowWidth);
 
             // let marginalIncrease = Math.min(halfWindowWidth, remainingWidthInIconUnits);
             const previousButton = document.querySelector('.previous-button-fade');
@@ -270,20 +286,42 @@ export default {
                 nextButton.classList.remove('disappear');
             }
 
-            console.log("iconsToLeft: " + this.iconsToLeft);
+            // console.log("iconsToLeft: " + this.iconsToLeft);
 
             // carouselTrack.style.transform = 'translateX(-' + this.iconsToLeft*this.carouselAverageItemWidth + 'px)';
-            // Scroll instead of using transform
-            carouselTrack.scrollLeft = 40;
-            console.log("scrollLeft: ", 40);
+            console.log("The scrollLeft property", carouselTrack.scrollLeft);
+            carouselTrack.scrollBy(
+                {
+                    top: 0,
+                    left: -halfWindowWidth*this.carouselAverageItemWidth,
+                    behavior: 'smooth'
+                }
+            )
+            console.log("The scrollLeft property", carouselTrack.scrollLeft);
+        
         }
     }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/scss/_variables.scss';
 
-.carousel-window {
+@media only screen and (max-width: $mobile-view) {
+    .carousel-window {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    /* align-items: center;
+    justify-content: center; */
+    height: 100%;
+    width: calc(100%);
+    overflow: hidden;
+    }
+}
+
+@media only screen and (min-width: $mobile-view) {
+    .carousel-window {
     display: flex;
     position: relative;
     flex-direction: row;
@@ -292,6 +330,7 @@ export default {
     height: 100%;
     width: calc(100% - 6rem);
     overflow: hidden;
+    }
 }
 
 ::-webkit-scrollbar {
@@ -307,14 +346,14 @@ export default {
     width: 100%;
     /* Have overflow go to the right */
     
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
+    // scroll-snap-type: x mandatory;
+    // scroll-behavior: smooth;
+    // -webkit-overflow-scrolling: touch;
     transition: transform 0.3s ease-in-out;
     overflow: scroll;
     /* Make the scroll bar invisible */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    // scrollbar-width: none;
+    // -ms-overflow-style: none;
     /* Make the scroll bar invisible on Google Chrome */
 }
 
@@ -463,4 +502,5 @@ button.previous-carousel-btn {
 /* button.previous-carousel-btn {
     left: 0;
 } */
+
 </style>
