@@ -2,10 +2,7 @@
     
     <div class="category-filter-bar-container">
         <categories-carousel></categories-carousel>
-        <button class="open-filters-modal-btn" @click="toggleFilterModal">
-            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" style="display:in;height:14px;width:14px;fill:currentColor" aria-hidden="true" role="presentation" focusable="false"><path d="M5 8c1.306 0 2.418.835 2.83 2H14v2H7.829A3.001 3.001 0 1 1 5 8zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6-8a3 3 0 1 1-2.829 4H2V4h6.17A3.001 3.001 0 0 1 11 2zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path></svg>
-            <span class="open-filters-modal-btn-spn">Filters</span>
-        </button>
+        <filters-button v-if="!mobileView"></filters-button>
     </div>
         <div v-if="filterModal">
         <div class="filter-modal-background" @click="toggleFilterModal">
@@ -20,18 +17,37 @@
 
 <script>
 import CategoriesCarousel from './CategoriesCarousel.vue';
+import FiltersButton from '@/components/ui/FiltersButton.vue';
 
 export default {
     name: "CategoriesCarouselContainer",
     components: {
-        CategoriesCarousel
+        CategoriesCarousel,
+        FiltersButton
     },
     data() {
         return {
             filterModal: false,
+            mobileView: false
         }
     },
+    mounted() {
+        window.addEventListener('resize', this.checkForMobileView)
+    },
+    beforeUnmount() {
+        window.removeEventListener('resize', this.checkForMobileView)
+    },
     methods: {
+        checkForMobileView() {
+            // Get the value of the CSS variable --mobile-view
+            let mobileView = getComputedStyle(document.documentElement).getPropertyValue('--mobile-view');
+            mobileView = parseInt(mobileView);
+            if (window.innerWidth <= mobileView) {
+                this.mobileView = true
+            } else {
+                this.mobileView = false
+            }
+        },
         toggleFilterModal() {
             this.filterModal = !this.filterModal
         }

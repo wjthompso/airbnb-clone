@@ -8,11 +8,12 @@
     </svg>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/scss/_variables.scss';
 
 /* Do a media query to check if the screen width is smaller than 743px */
 
-@media only screen and (max-width: 669px) {
+@media only screen and (max-width: $mobile-view) {
     svg.airbnb-logo-mobile {
         display: none;
     }
@@ -22,7 +23,7 @@
     }
 }
 
-@media only screen and (min-width: 670px) and (max-width: 1224px) {
+@media only screen and (min-width: $mobile-view) and (max-width: 1224px) {
     svg.airbnb-logo-mobile {
         display: flex;
         align-self: center;
@@ -43,8 +44,6 @@
         display: flex;
         height: 1em;
         align-self: center;
-        /* margin-left: 1rem; */
-        /* vertical-align: middle; */
     }
 }
 

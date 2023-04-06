@@ -6,9 +6,10 @@
     </button>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/scss/_variables.scss';
 
-@media only screen and (max-width: 669px) {
+@media only screen and (max-width: $mobile-view) {
 
     button.profile-notification-button {
         display: none;

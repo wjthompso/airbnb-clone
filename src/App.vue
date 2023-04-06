@@ -12,7 +12,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "@/scss/_variables.scss";
 
 * {
   margin: 0;
@@ -27,7 +28,20 @@ export default {
   --FS-M: 2rem;
   --FS-L: 3rem;
   --FS-XL: 4rem;
+  --mobile-view: 768px;
   --page-margin: 3rem;
+}
+
+@media only screen and (max-width: $mobile-view) {
+    :root {
+    --FS: 1rem;
+    --FS-S: 0.8rem;
+    --FS-M: 2rem;
+    --FS-L: 3rem;
+    --FS-XL: 4rem;
+    --mobile-view: 768px;
+    --page-margin: 1rem;  
+    }
 }
 
 #app {
