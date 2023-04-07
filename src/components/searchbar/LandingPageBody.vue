@@ -1,7 +1,7 @@
 <template>
     <div class="body-with-cards">
 
-        <property-image-carousel-card v-for="idx in 19" :key="idx" :image-location-array="imageLocationArray"></property-image-carousel-card>
+        <property-image-carousel-card v-for="idx in 19" :key="idx" :image-location-array="imageLocationArray" id=1></property-image-carousel-card>
         <!-- <property-image-carousel-card></property-image-carousel-card>
         <property-image-carousel-card></property-image-carousel-card> -->
     </div>

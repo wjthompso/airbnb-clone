@@ -9,7 +9,7 @@
                 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;"><g fill="none"><path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path></g></svg>
             </button>
             <div class="carousel-images">
-                <img v-for="image in imageLocationArray" :src="image.imageLocation" :alt="image.id" :key="image.id">
+                <img v-for="image in imageLocationArray" :src="image.imageLocation" :alt="image.id" :key="image.id" @click="navigateToProperty">
             </div>
             <button class="carousel-button" id="nextButton" @click="next"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;"><g fill="none"><path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path></g></svg></button>
 
@@ -38,6 +38,10 @@
 export default {
     name: 'PropertyImageCarouselCard',
     props: {
+        id: {
+            type: Number,
+            required: true,
+        },
         imageLocationArray: {
             type: Array,
             required: true,
@@ -81,6 +85,9 @@ export default {
             const marginLeft = parseFloat(computedStyle.marginLeft);
             const marginRight = parseFloat(computedStyle.marginRight);
             return width + marginLeft + marginRight;
+        },
+        navigateToProperty() {
+            this.$router.push('/property/' + this.id);
         },
         next(e) {
             let imageCarouselContainer;
