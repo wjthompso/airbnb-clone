@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Property Listing</h1>
+        <h4>Property Listing</h4>
     </div>
 </template>
 
