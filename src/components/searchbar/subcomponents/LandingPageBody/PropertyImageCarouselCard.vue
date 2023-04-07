@@ -12,7 +12,6 @@
                 <img v-for="image in imageLocationArray" :src="image.imageLocation" :alt="image.id" :key="image.id" @click="navigateToProperty">
             </div>
             <button class="carousel-button" id="nextButton" @click="next"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;"><g fill="none"><path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path></g></svg></button>
-
             <div class="nav-indicator-carousel-window">
                 <div class="nav-indicator-carousel-track">
                     <!-- Number of nav-indicator-carousel-items must match number of carousel-images -->
@@ -96,6 +95,9 @@ export default {
             let imageCount;
             imageCount = carouselImages.children.length;
 
+            // Get the width of the images
+            const imageCarouselItemWidth = this.getFullWidth(carouselImages.children[1]);
+
             // Set the width of the carousel track to number of * width of the .nav-indicator-carousel-item
             const navCarouselTrack = imageCarouselContainer.querySelector('.nav-indicator-carousel-track');
             const navCarouselItems = imageCarouselContainer.querySelectorAll('.nav-indicator-carousel-item');
@@ -108,7 +110,11 @@ export default {
             this.currentImageIndex++;
             carouselImages.style.transition = 'transform 0.4s ease-in-out';
             // Scroll instead of translateX
-            carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
+            // carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
+            carouselImages.scrollBy({
+                left: imageCarouselItemWidth,
+                behavior: 'smooth'
+            });
 
             // This is the logic for the nav indicator carousel
             navCarouselItems[this.currentImageIndex-1].classList.remove('active');
@@ -138,6 +144,7 @@ export default {
                 let imageCount;
                 imageCount = carouselImages.children.length;
                 // const imageCount = carouselImages.children.length;
+                const imageCarouselItemWidth = this.getFullWidth(carouselImages.children[1]);
 
                 // Set the width of the carousel track to number of * width of the .nav-indicator-carousel-item
                 const navCarouselTrack = imageCarouselContainer.querySelector('.nav-indicator-carousel-track');
@@ -153,7 +160,11 @@ export default {
 
                 this.currentImageIndex--;
                 carouselImages.style.transition = 'transform 0.4s ease-in-out';
-                carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
+                // carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
+                carouselImages.scrollBy({
+                    left: -imageCarouselItemWidth,
+                    behavior: 'smooth'
+                });
 
                 // This is the logic for the nav indicator carousel
                 navCarouselItems[this.currentImageIndex+1].classList.remove('active');
@@ -187,44 +198,44 @@ export default {
     /* Media queries for making the cards responsive */
     @media only screen and (max-width: 645px) {
         .image-card-width {
-            width: 100%;
+            width: calc(100% - 1rem);
         }
     }
 
     @media only screen and (min-width: 646px) and (max-width: 872px) {
         .image-card-width {
-            width: 47%;
+            width: calc(50% - 1rem);
         }
     }
 
     @media only screen and (min-width: 873px) and (max-width: 1164px) {
         .image-card-width {
-            width: 30.7%;
+            width: calc(33.3% - 1rem);
         }
     }
 
     @media only screen and (min-width: 1165px) and (max-width: 1340px) {
         .image-card-width {
             /* width: 22.9%; */
-            width: 23.5%;
+            width: calc(25% - 1rem);
         }
     }
 
     @media only screen and (min-width: 1341px) and (max-width: 1749px) {
         .image-card-width {
-            width: 18.7%;
+            width: calc(20% - 1rem);
         }
     }
 
     @media only screen and (min-width: 1750px) and (max-width: 1899px) {
         .image-card-width {
-            width: 15.7%;
+            width: calc(20% - 1rem);
         }
     }
 
     @media only screen and (min-width: 1900px) {
         .image-card-width {
-            width: 15.7%;
+            width: calc(16.6% - 1rem);
         }
     }
 
@@ -286,16 +297,35 @@ export default {
 
     /* Classes for the image carousel and its control buttons */
     .image-carousel-container {
-      position: relative;
-      overflow: hidden;
-      border-radius: 15px;
+        position: relative;
+        overflow: hidden;
+        /* Hide the scroll bar */
+
+        border-radius: 15px;
+    }
+
+    .image-container-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .image-container-wrapper::-webkit-scrollbar {
+        display: none;
     }
 
     .carousel-images {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.5s ease-in-out;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s ease-in-out;
+        overflow: scroll;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .carousel-images::-webkit-scrollbar {
+        display: none;
     }
 
     .carousel-images img {
@@ -308,7 +338,7 @@ export default {
         transform: scale(01);
     }
 
-    .carousel-button#nextButton {
+    button.carousel-button#nextButton {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -329,12 +359,12 @@ export default {
         transition: opacity 0.2s ease;
     }
 
-    .carousel-button#nextButton:hover {
+    button.carousel-button#nextButton:hover {
         background-color: rgba(255, 255, 255, 0.9);
         opacity: 1;
     }
 
-    .carousel-button#prevButton {
+    button.carousel-button#prevButton {
         display: flex;
         align-items: center;
         justify-content: center;
