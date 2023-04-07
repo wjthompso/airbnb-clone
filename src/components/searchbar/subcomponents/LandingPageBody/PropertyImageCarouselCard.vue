@@ -196,13 +196,13 @@ export default {
         }
     }
 
-    @media only screen and (min-width: 873px) and (max-width: 1132px) {
+    @media only screen and (min-width: 873px) and (max-width: 1164px) {
         .image-card-width {
             width: 30.7%;
         }
     }
 
-    @media only screen and (min-width: 1133px) and (max-width: 1340px) {
+    @media only screen and (min-width: 1165px) and (max-width: 1340px) {
         .image-card-width {
             /* width: 22.9%; */
             width: 23.5%;
