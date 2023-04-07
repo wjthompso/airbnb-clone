@@ -1,7 +1,7 @@
 <template>
 
         <div class="wrapper-container-for-box-shadow">
-            <div class="booking-options-parent-container" @clickin="fireExpandHeaderEvent">
+            <div class="booking-options-parent-container" @click="fireExpandHeaderEvent">
                 <div class="booking-options-container">
                     <div href="#" class="booking-option" id="1"><span>Anywhere</span></div>
                     <div class="booking-option-separator"></div>
