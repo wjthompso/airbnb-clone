@@ -56,6 +56,7 @@ export default {
     },
     mounted() {
             const carouselImagesSets = this.$refs.imageCarouselContainer;
+            const carouselImages = this.$refs.carouselImages;
 
             // Set the width of the carousel track to number of * width of the .nav-indicator-carousel-item
             const navCarouselTrack = carouselImagesSets.querySelector('.nav-indicator-carousel-track');
@@ -75,12 +76,76 @@ export default {
 
             // Add event listeners for window resize events
             window.addEventListener('resize', this.onWindowResize);
+            let scrollingTimer;
+            carouselImages.addEventListener('scroll', () => {
+                clearTimeout(scrollingTimer);
+                scrollingTimer = setTimeout(() => {
+                    this.handleScrolling();
+                }, 100);
+            });
     },
     beforeUnmount() {
         // Remove event listeners for window resize events
         window.removeEventListener('resize', this.onWindowResize);
     },
     methods: {
+        handleScrolling() {
+            const carouselImages = this.$refs.carouselImages;
+            const navCarouselItems = this.$refs.imageCarouselContainer.querySelectorAll('.nav-indicator-carousel-item');
+            const navCarouselTrack = this.$refs.imageCarouselContainer.querySelector('.nav-indicator-carousel-track');
+            const navCarouselItemCount = navCarouselTrack.children.length;
+
+            // Get the width of the carousel item, including margins
+            const carouselItemWidth = this.getFullWidth(carouselImages.children[1]);
+            const navCarouselItemWidth = this.getFullWidth(navCarouselItems[1]);
+
+            // Get the current scroll position
+            const scrollPosition = carouselImages.scrollLeft;
+            console.log('scrollPosition', scrollPosition);
+
+            // Calculate the current image index based on the scroll position
+            const currentImageIndex = Math.round(scrollPosition / carouselItemWidth);
+            console.log('currentImageIndex', currentImageIndex);
+            carouselImages.scrollTo({
+                left: currentImageIndex * carouselItemWidth,
+                behavior: 'smooth',
+            });
+
+            // If the current image index is different from the previous image index, update the current image index
+            if (currentImageIndex !== this.currentImageIndex) {
+                this.currentImageIndex = currentImageIndex;
+
+                // Remove the active class from all nav indicator items
+                navCarouselItems.forEach((navCarouselItem) => {
+                    navCarouselItem.classList.remove('active');
+                    navCarouselItem.classList.remove('near-edge');
+                    navCarouselItem.classList.remove('edge');
+                });
+
+                if (this.currentImageIndex < 2) {
+                    navCarouselTrack.style.transform = `translateX(-0px)`;
+                } else if (this.currentImageIndex >= navCarouselItemCount - 3) {
+                    navCarouselTrack.style.transform = `translateX(-${(navCarouselItemCount - 5) * navCarouselItemWidth}px)`;
+                } else {
+                    navCarouselTrack.style.transform = `translateX(-${(this.currentImageIndex - 2) * navCarouselItemWidth}px)`;
+                }
+
+                // Add the active class to the current nav indicator item
+                navCarouselItems[currentImageIndex].classList.add('active');
+                if (currentImageIndex < 3) {
+                    navCarouselItems[3].classList.add('near-edge');
+                    navCarouselItems[4].classList.add('edge');
+                } else if (currentImageIndex >= navCarouselItemCount - 3) {
+                    navCarouselItems[navCarouselItemCount - 4].classList.add('near-edge');
+                    navCarouselItems[navCarouselItemCount - 5].classList.add('edge');
+                } else {
+                    navCarouselItems[currentImageIndex + 1].classList.add('near-edge');
+                    navCarouselItems[currentImageIndex + 2].classList.add('edge');
+                    navCarouselItems[currentImageIndex - 1].classList.add('near-edge');
+                    navCarouselItems[currentImageIndex - 2].classList.add('edge');
+                }
+            }
+        },
         onWindowResize() {
             // When the window is resized, re-calculate the width of the carousel track
             const carouselImages = this.$refs.carouselImages;
