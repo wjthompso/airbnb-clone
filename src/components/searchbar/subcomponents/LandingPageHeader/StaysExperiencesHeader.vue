@@ -26,10 +26,14 @@ div.alternative-experiences-header {
     align-self: center;
     justify-self: center;
     align-items: center;
-    width: 55%;
+    max-width: 55%;
+    min-width: 5%;
     height: 100%;
     padding: 0rem 6rem;
     box-sizing: border-box;
+    /* overflow: hidden; */
+    /* white-space: nowrap; */
+    /* text-overflow: ellipsis; */
 }
 
 div.alternative-experiences-header p {
@@ -37,9 +41,12 @@ div.alternative-experiences-header p {
     font-size: 1.2rem;
     font-weight: 600;
     padding-right: 1rem;
+    margin-right: 1rem;
     color: rgb(34, 34, 34);
     cursor: pointer;
     overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     /* No wrap */
     /* white-space: nowrap; */
 }

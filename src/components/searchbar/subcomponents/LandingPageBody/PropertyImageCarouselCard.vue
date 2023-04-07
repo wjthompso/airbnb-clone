@@ -204,19 +204,20 @@ export default {
 
     @media only screen and (min-width: 1133px) and (max-width: 1340px) {
         .image-card-width {
-            width: 22.9%;
+            /* width: 22.9%; */
+            width: 23.5%;
         }
     }
 
-    @media only screen and (min-width: 1341px) and (max-width: 1698px) {
+    @media only screen and (min-width: 1341px) and (max-width: 1749px) {
         .image-card-width {
             width: 18.7%;
         }
     }
 
-    @media only screen and (min-width: 1699px) and (max-width: 1899px) {
+    @media only screen and (min-width: 1750px) and (max-width: 1899px) {
         .image-card-width {
-            width: 15.5%;
+            width: 15.7%;
         }
     }
 
