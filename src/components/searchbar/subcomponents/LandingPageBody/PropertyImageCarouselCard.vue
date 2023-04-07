@@ -38,7 +38,7 @@ export default {
     name: 'PropertyImageCarouselCard',
     props: {
         id: {
-            type: Number,
+            type: String,
             required: true,
         },
         imageLocationArray: {
@@ -51,7 +51,7 @@ export default {
             currentImageIndex: 0,
         }
     },
-    beforeMount() {
+    mounted() {
             const carouselImagesSets = document.querySelectorAll('.image-carousel-container');
             for (let i = 0; i < carouselImagesSets.length; i++) {
                 const imageCount = carouselImagesSets[i].children.length;
@@ -104,17 +104,38 @@ export default {
             const carouselItemWidth = this.getFullWidth(navCarouselItems[1]);
 
             // This is the logic for the image carousel
-            if (this.currentImageIndex === imageCount-1) {
-                return;
-            }
-            this.currentImageIndex++;
+            // if (this.currentImageIndex === imageCount-1) {
+            //     return;
+            // }
+            // this.currentImageIndex++;
             carouselImages.style.transition = 'transform 0.4s ease-in-out';
-            // Scroll instead of translateX
-            // carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
-            carouselImages.scrollBy({
-                left: imageCarouselItemWidth,
-                behavior: 'smooth'
-            });
+
+            // We want to stop incrementing forward through the images if we are at the last image
+            // Otherwise, we want to decrement the currentImageIndex at every click
+            if (this.currentImageIndex === imageCount-1) {
+                this.currentImageIndex = imageCount-1;
+                return
+            } else {
+                this.currentImageIndex++;
+            }
+
+            console.log(carouselImages.scrollLeft);
+            console.log(imageCount);
+
+            // If the user has scrolled so that we see two images, snap to the next image
+            if (carouselImages.scrollLeft % imageCarouselItemWidth === 0) {
+                // carouselImages.scrollLeft += imageCarouselItemWidth;
+                carouselImages.scrollBy({
+                    left: imageCarouselItemWidth,
+                    behavior: 'smooth'
+                });
+            } else {
+                // carouselImages.scrollLeft += imageCarouselItemWidth - carouselImages.scrollLeft % imageCarouselItemWidth;
+                carouselImages.scrollBy({
+                    left: imageCarouselItemWidth - carouselImages.scrollLeft % imageCarouselItemWidth,
+                    behavior: 'smooth'
+                });
+            }
 
             // This is the logic for the nav indicator carousel
             navCarouselItems[this.currentImageIndex-1].classList.remove('active');
@@ -154,17 +175,33 @@ export default {
                 const carouselItemWidth = this.getFullWidth(navCarouselItems[1]);
 
                 // This is the logic for the image carousel
-                if (this.currentImageIndex === 0) {
-                    return;
+                // if (this.currentImageIndex === 0) {
+                //     return;
+                // }
+
+                carouselImages.style.transition = 'transform 0.4s ease-in-out';
+
+                // We want to stop decrementing back through the images if we are at the first image
+                // Otherwise, we want to decrement the currentImageIndex at every click
+                if (carouselImages.scrollLeft === 0) {
+                    this.currentImageIndex = 0;
+                    return
+                } else {
+                    this.currentImageIndex--;
                 }
 
-                this.currentImageIndex--;
-                carouselImages.style.transition = 'transform 0.4s ease-in-out';
-                // carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
-                carouselImages.scrollBy({
-                    left: -imageCarouselItemWidth,
-                    behavior: 'smooth'
-                });
+                // If the user has scrolled so that we see two images, snap to the previous image
+                if (carouselImages.scrollLeft % imageCarouselItemWidth === 0) {
+                    carouselImages.scrollBy({
+                        left: -imageCarouselItemWidth,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    carouselImages.scrollBy({
+                        left: -carouselImages.scrollLeft % imageCarouselItemWidth,
+                        behavior: 'smooth'
+                    });
+                }
 
                 // This is the logic for the nav indicator carousel
                 navCarouselItems[this.currentImageIndex+1].classList.remove('active');
