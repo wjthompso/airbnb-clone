@@ -71,6 +71,7 @@ div.body-with-cards {
     width: 100%;
     position: absolute;
     padding: 0 var(--page-margin);
+    padding-left: calc(var(--page-margin) - 1rem);
     top: 12.5rem;
 }
 
