@@ -173,9 +173,7 @@ export default {
 
         this.carouselAverageItemWidth = this.carouselAverageItemWidth / carouselItems.length;
 
-        console.log(this.carouselAverageItemWidth);
         carouselTrack.style.width = (this.carouselAverageItemWidth * carouselItems.length) + 'px';
-        console.log("carouselTrack.style.width: " + carouselTrack.style.width);
 
         // Get current window width
         this.oldWindowWidth = window.innerWidth;
@@ -187,57 +185,95 @@ export default {
 
     methods: {
         handleResize() {
+            // Calculate the change in window width to determine if the window has been resized
             let changeInWindowWidth = window.innerWidth - this.oldWindowWidth;
+            // Update the oldWindowWidth to the current window width
             this.oldWindowWidth = window.innerWidth;
+
+            // If the window size is in the mobile view range, hide the buttons
+            // Get the SCSS variable for the mobile view range
+            const mobileViewRange = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--mobile-view'));
+            if (window.innerWidth < mobileViewRange) {
+                const nextButton = document.querySelector('.next-button-fade');
+                nextButton.classList.add('disappear');
+                const prevButton = document.querySelector('.previous-button-fade');
+                prevButton.classList.add('disappear');
+                return
+            }
+
+            // If the window is shrinking
             if (changeInWindowWidth < 0) {
+                // Ensure the 'next' button is visible by removing the 'disappear' class
                 const nextButton = document.querySelector('.next-button-fade');
                 nextButton.classList.remove('disappear');
             }
-            if (changeInWindowWidth > 0 && window.innerWidth > this.oldMaxWindowWidth) {
 
+            // If the window is expanding and it's now wider than the previously recorded maximum width
+            if (changeInWindowWidth > 0 && window.innerWidth > this.oldMaxWindowWidth) {
+                // Update the old maximum window width to the current window width
                 this.oldMaxWindowWidth = window.innerWidth;
+
+                // Adjust the number of icons visible to the left of the carousel based on the new window width
                 let newIconsToLeft = this.iconsToLeft - (changeInWindowWidth / this.carouselAverageItemWidth);
+
+                // Ensure the newIconsToLeft value doesn't become negative
                 if (newIconsToLeft < 0) {
                     newIconsToLeft = 0;
                 }
+
+                // Update the iconsToLeft value with the new calculated value
                 this.iconsToLeft = newIconsToLeft;
             } else {
+                // If none of the above conditions are met, exit the function
                 return;
             }
 
+            // Temporarily disable the transition effect on the carousel track for smoother scrolling
             const carouselTrack = document.querySelector('.carousel-track');
             carouselTrack.classList.add('temporarily-remove-transition');
+
+            // Scroll the carousel track to adjust its position based on the change in window width
             carouselTrack.scrollBy(
                 {
                     left: -changeInWindowWidth,
                     behavior: 'smooth'
                 }
-            )
+            );
+
+            // After a 100ms delay, re-enable the transition effect on the carousel track
             setInterval(() => {
                 carouselTrack.classList.remove('temporarily-remove-transition');
             }, 100);
         },
+
         slideRight() {
+            // Get the carousel track, carousel window, and their widths
             const carouselTrack = document.querySelector('.carousel-track');
             const carouselWindow = document.querySelector('.carousel-window');
             const carouselTrackWidth = parseInt(carouselTrack.style.width);
             const carouselWindowWidth = carouselWindow.getBoundingClientRect().width;
 
+            // Calculate half of the window width and the remaining width of the carousel in icon units
             let halfWindowWidth = Math.floor(carouselWindowWidth/(2*this.carouselAverageItemWidth));
             let remainingWidthInIconUnits = carouselTrackWidth - carouselTrack.scrollLeft - carouselWindowWidth;
 
+            // Get the next and previous button elements
             const nextButton = document.querySelector('.next-button-fade');
             const previousButton = document.querySelector('.previous-button-fade');
+
+            // If the remaining width in the carousel is less than half the window width
             if (remainingWidthInIconUnits < halfWindowWidth) {
-                // Hide the next button/right arrow
+                // Hide the next button/right arrow and show the previous button/left arrow
                 nextButton.classList.add('disappear');
                 previousButton.classList.remove('disappear');
             } else {
+                // Update the iconsToLeft value and show both next and previous buttons
                 this.iconsToLeft += halfWindowWidth;
                 nextButton.classList.remove('disappear');
                 previousButton.classList.remove('disappear');
             }
 
+            // Scroll the carousel track to the right by the calculated width
             carouselTrack.scrollBy(
                 {
                     top: 0,
@@ -245,6 +281,8 @@ export default {
                     behavior: 'smooth'
                 }
             )
+
+            // Update the oldMaxWindowWidth to the current window width
             this.oldMaxWindowWidth = window.innerWidth;
         },
         slideLeft() {

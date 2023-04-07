@@ -57,7 +57,7 @@ export default {
     data() {
         return {
             mobileView: false,
-            filterModal: true,
+            filterModal: false,
             bookingOptions: [
                 {
                     name: 'Anywhere',
