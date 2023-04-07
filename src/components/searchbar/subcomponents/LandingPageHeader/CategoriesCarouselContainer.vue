@@ -27,6 +27,7 @@ export default {
         }
     },
     mounted() {
+        this.checkForMobileView();
         window.addEventListener('resize', this.checkForMobileView)
     },
     beforeUnmount() {

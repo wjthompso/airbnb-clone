@@ -11,7 +11,7 @@
                 <p>{{category.name}}</p>
             </button>
         </div>
-        <div class="next-button-fade">
+        <div class="next-button-fade disappear">
                 <button class="next-carousel-btn" @click="slideRight">
                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><g fill="none"><path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path></g></svg>
                 </button>
@@ -180,6 +180,7 @@ export default {
         this.oldMaxWindowWidth = window.innerWidth;
 
         // Add window resize listener
+        this.handleResize();
         window.addEventListener('resize', this.handleResize);
     },
 
@@ -193,12 +194,15 @@ export default {
             // If the window size is in the mobile view range, hide the buttons
             // Get the SCSS variable for the mobile view range
             const mobileViewRange = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--mobile-view'));
+            const nextButton = document.querySelector('.next-button-fade');
+            const prevButton = document.querySelector('.previous-button-fade');
             if (window.innerWidth < mobileViewRange) {
-                const nextButton = document.querySelector('.next-button-fade');
-                nextButton.classList.add('disappear');
-                const prevButton = document.querySelector('.previous-button-fade');
                 prevButton.classList.add('disappear');
+                nextButton.classList.add('disappear');
                 return
+            } else {
+                console.log("We're getting in here A");
+                nextButton.classList.remove('disappear');
             }
 
             // If the window is shrinking
