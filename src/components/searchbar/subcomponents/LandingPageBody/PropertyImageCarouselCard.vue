@@ -107,6 +107,7 @@ export default {
             }
             this.currentImageIndex++;
             carouselImages.style.transition = 'transform 0.4s ease-in-out';
+            // Scroll instead of translateX
             carouselImages.style.transform = `translateX(-${this.currentImageIndex * 100}%)`;
 
             // This is the logic for the nav indicator carousel
