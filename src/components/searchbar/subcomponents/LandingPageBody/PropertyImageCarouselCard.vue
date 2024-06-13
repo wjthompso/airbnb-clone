@@ -715,11 +715,12 @@ body {
 .carousel-images {
     display: flex;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     transition: transform 0.5s ease-in-out;
     overflow: scroll;
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+    aspect-ratio: 1/1;
 }
 
 .carousel-images::-webkit-scrollbar {
@@ -730,7 +731,7 @@ body {
     /* Make the image fit. Don't squish the image. */
     object-fit: cover;
     object-position: center center;
-    width: 100%;
+    /* width: 100%; */
     aspect-ratio: 1/1;
     /* height: auto; */
     transform: scale(01);
