@@ -59,7 +59,7 @@
                 ref="carouselImages"
             >
                 <img
-                    v-for="image in imageLocationArray"
+                    v-for="image in localImageArray"
                     :src="image.imageLocation"
                     :alt="image.id"
                     :key="image.id"
@@ -159,6 +159,11 @@ export default {
             scrollQueue: [],
         };
     },
+    created() {
+        // Shuffle the elements in the imageLocationArray
+        this.localImageArray = [...this.imageLocationArray];
+        this.shuffleArray(this.localImageArray);
+    },
     mounted() {
         const carouselImagesSets = this.$refs.imageCarouselContainer;
         const carouselImages = this.$refs.carouselImages;
@@ -200,6 +205,12 @@ export default {
         window.removeEventListener("resize", this.onWindowResize);
     },
     methods: {
+        shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            }
+        },
         handleScrolling() {
             const carouselImages = this.$refs.carouselImages;
             const navCarouselItems =
